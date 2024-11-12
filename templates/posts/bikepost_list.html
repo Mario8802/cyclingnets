@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Bike Posts</h1>
+<ul>
+    {% for bike_post in bike_posts %}
+        <li>{{ bike_post.title }} - {{ bike_post.price }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
