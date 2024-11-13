@@ -3,8 +3,15 @@
 {% block content %}
 <h1>Bike Posts</h1>
 <ul>
-    {% for bike_post in bike_posts %}
-        <li>{{ bike_post.title }} - {{ bike_post.price }}</li>
+    {% for post in bike_posts %}
+        <li>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.description }}</p>
+            <p>Price: {{ post.price }}</p>
+            <p>Posted by: {{ post.posted_by.username }}</p>
+        </li>
+    {% empty %}
+        <p>No bike posts available.</p>
     {% endfor %}
 </ul>
 {% endblock %}
