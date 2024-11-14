@@ -12,7 +12,8 @@ SECRET_KEY = 'django-insecure-*e49)1#xuc@kt=8-3o2q6t_r^sjdy+x0p172_4wt*tle3#h3$%
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']  # Уверете се, че URL е добавен тук
+CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
 ALLOWED_HOSTS = []
 
 
@@ -119,3 +120,4 @@ AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
+
