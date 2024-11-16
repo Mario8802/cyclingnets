@@ -4,7 +4,7 @@ from .models import Event
 class EventForm(forms.ModelForm):
     class Meta:
         model = Event
-        fields = ['title', 'description', 'date', 'location', 'participants']
+        fields = ['title', 'description', 'date', 'location']
         widgets = {
-            'participants': forms.CheckboxSelectMultiple,
+            'date': forms.DateInput(attrs={'type': 'date'}),  # HTML5 date picker
         }
