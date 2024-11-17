@@ -3,11 +3,14 @@
 
 {% block content %}
 <h2 class="text-center mb-4">Events</h2>
+
+<!-- Search Form -->
 <form method="get" action="{% url 'event_list' %}" class="d-flex mb-4">
-  <input type="text" name="search" class="form-control me-2" placeholder="Search events...">
-  <button class="btn btn-outline-primary" type="submit">Search</button>
+    <input type="text" name="search" class="form-control me-2" placeholder="Search events...">
+    <button class="btn btn-outline-primary" type="submit">Search</button>
 </form>
 
+<!-- Event Cards -->
 <div class="row row-cols-1 row-cols-md-3 g-4">
     {% for event in events %}
     <div class="col">
@@ -29,7 +32,7 @@
     {% endfor %}
 </div>
 
-<!-- Modals for deletion -->
+<!-- Modals for Deletion -->
 {% for event in events %}
 <div class="modal fade" id="deleteModal{{ event.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ event.id }}" aria-hidden="true">
   <div class="modal-dialog">

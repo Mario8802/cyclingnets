@@ -1,32 +1,128 @@
+/* Хедър секцията - модерна и впечатляваща */
 .hero-section {
-    background-size: cover;
+    height: 100vh; /* Височина на цял екран */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
     color: #fff;
-    padding: 100px 20px;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+    position: relative;
+    /* За по-модерен ефект */
+    background: url('../images/passo_dello_stelvio.jpg') no-repeat fixed center center;
 }
 
-.card {
-    transition: transform 0.3s;
+.hero-section h1 {
+    font-size: 4rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, 0.5); /* Черен фон с прозрачност */
+    padding: 20px;
+    border-radius: 10px;
 }
 
-.card:hover {
-    transform: scale(1.05);
+.hero-section p {
+    font-size: 1.5rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px 20px;
+    border-radius: 5px;
+    display: inline-block;
+    margin-bottom: 30px;
 }
 
-.btn-primary {
+.hero-section .btn-lg {
+    padding: 15px 40px;
+    font-size: 1.5rem;
+    font-weight: bold;
     background-color: #0056b3;
     border: none;
+    border-radius: 10px;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
-.btn-primary:hover {
+.hero-section .btn-lg:hover {
     background-color: #004494;
+    transform: scale(1.1); /* Леко уголемяване при hover */
 }
+
+/* Карти със събития - стилни и модерни */
 .card {
-  border-radius: 10px;
-  transition: transform 0.2s;
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
 }
+
 .card:hover {
-  transform: scale(1.05);
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }
+
+.card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+.card .card-body {
+    padding: 20px;
+}
+
+.card h5 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+}
+
+.card p {
+    font-size: 1rem;
+    color: #6c757d;
+}
+
+/* Навигационна лента */
 .navbar {
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+}
+
+.navbar-brand {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #0056b3 !important;
+}
+
+.navbar-nav .nav-link {
+    font-size: 1.2rem;
+    color: #6c757d;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover {
+    color: #0056b3;
+}
+
+/* Footer секция */
+footer {
+    background-color: #f8f9fa;
+    text-align: center;
+    padding: 20px 0;
+    font-size: 0.9rem;
+    color: #6c757d;
+    margin-top: 50px;
+}
+
+footer a {
+    color: #0056b3;
+    text-decoration: none;
+    margin: 0 10px;
+}
+
+footer a:hover {
+    text-decoration: underline;
+}
+
+/* Отделяне на секциите */
+.container {
+    margin-top: 50px;
 }

@@ -1,12 +1,15 @@
 {% extends "base.html" %}
+{% load static %}
 
 {% block content %}
-<div class="hero-section text-center text-light py-5" style="background: url('https://source.unsplash.com/1600x900/?cycling,nature') no-repeat center center / cover;">
+<!-- Hero Section -->
+<div class="hero-section text-center text-light py-5" style="background: url('{% static "images/passo_dello_stelvio.jpg" %}') no-repeat center center / cover;">
     <h1 class="display-4">Welcome to Bike Connect</h1>
     <p class="lead">Connect with cycling enthusiasts, plan events, and stay active!</p>
     <a href="{% url 'event_list' %}" class="btn btn-lg btn-primary mt-3">Explore Events</a>
 </div>
 
+<!-- Features Section -->
 <div class="container py-5">
     <div class="row">
         <div class="col-md-4">
@@ -23,4 +26,89 @@
         </div>
     </div>
 </div>
+
+<!-- Upcoming Events Section -->
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Upcoming Events</h2>
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for event in events %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text">{{ event.description }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
+                    <p class="card-text"><small class="text-muted">{{ event.date }}</small></p>
+                    <a href="{% url 'event_detail' event.id %}" class="btn btn-primary btn-sm">Details</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Testimonials Section -->
+<div class="container mt-5 py-5">
+    <h2 class="text-center mb-4">What Our Users Say</h2>
+    <div class="row">
+        <div class="col-md-4">
+            <blockquote class="blockquote text-center">
+                <p>"Bike Connect changed the way I plan my cycling trips!"</p>
+                <footer class="blockquote-footer">John Doe</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4">
+            <blockquote class="blockquote text-center">
+                <p>"It's so easy to find new cycling routes and events!"</p>
+                <footer class="blockquote-footer">Jane Smith</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4">
+            <blockquote class="blockquote text-center">
+                <p>"I love the community and the shared enthusiasm for cycling."</p>
+                <footer class="blockquote-footer">Alice Johnson</footer>
+            </blockquote>
+        </div>
+    </div>
+</div>
+
+<!-- Call to Action Section -->
+<div class="container text-center my-5">
+    <h3>Start your journey with Bike Connect today!</h3>
+    <a href="{% url 'event_create' %}" class="btn btn-lg btn-success mt-3">Create Your First Event</a>
+</div>
 {% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Функция за зареждане на събития
+        function loadUpcomingEvents() {
+            fetch('/api/upcoming-events/')
+                .then(response => response.json())
+                .then(events => {
+                    const container = document.getElementById('upcoming-events');
+                    container.innerHTML = ''; // Изчистване на текущите събития
+                    events.forEach(event => {
+                        const card = 
+                            <div class="col">
+                                <div class="card h-100 shadow-sm">
+                                    <div class="card-body">
+                                        <h5 class="card-title">${event.title}</h5>
+                                        <p class="card-text">${event.description}</p>
+                                        <p class="card-text"><strong>Location:</strong> ${event.location}</p>
+                                        <p class="card-text"><small class="text-muted">${event.date}</small></p>
+                                        <a href="/events/${event.id}" class="btn btn-primary btn-sm">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        ;
+                        container.innerHTML += card;
+                    });
+                })
+                .catch(error => console.error('Error loading events:', error));
+        }
+
+        // Зареждане на събития при стартиране
+        loadUpcomingEvents();
+    });
+</script>  please replace my landing mage with some modern moving
