@@ -5,6 +5,19 @@ from .models import Event, Booking
 from .forms import EventForm
 from django.views.generic import UpdateView
 from django.views.generic import DeleteView
+from rest_framework import viewsets, filters
+from .models import Event
+from .serializers import EventSerializer
+
+
+class EventViewSet(viewsets.ModelViewSet):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    search_fields = ['title', 'location']
+    ordering_fields = ['date', 'title']
+
+
 
 class EventDeleteView(DeleteView):
     model = Event
@@ -13,11 +26,10 @@ class EventDeleteView(DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         event = self.get_object()
-        if event.organizer != request.user:  # Проверка дали потребителят е организатор
-            return redirect('event_list')  # Пренасочване, ако не е
+        # Allow superusers or the event organizer to delete the event
+        if not request.user.is_superuser and event.organizer != request.user:
+            return redirect('event_list')  # Redirect if not authorized
         return super().dispatch(request, *args, **kwargs)
-
-
 
 class EventUpdateView(UpdateView):
     model = Event
@@ -27,15 +39,18 @@ class EventUpdateView(UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         event = self.get_object()
-        if event.organizer != request.user:  # Проверка дали потребителят е организатор
-            return redirect('event_list')  # Пренасочване, ако не е
+        # Allow superusers or the event organizer to update the event
+        if not request.user.is_superuser and event.organizer != request.user:
+            return redirect('event_list')  # Redirect if not authorized
         return super().dispatch(request, *args, **kwargs)
+
 
 # List View for Events
 class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
     context_object_name = 'events'
+
 
 # Create View for Events
 class EventCreateView(CreateView):

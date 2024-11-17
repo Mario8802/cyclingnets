@@ -2,9 +2,22 @@ from django.views.generic import ListView
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+
+from events.models import Event
 from .models import BikePost
 from .forms import BikePostForm
+from django.db.models import Q
 
+class EventListView(ListView):
+    model = Event
+    template_name = 'events/event_list.html'
+    context_object_name = 'events'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Event.objects.filter(Q(title__icontains=query) | Q(location__icontains=query))
+        return super().get_queryset()
 # ListView to display all Bike Posts
 class BikePostListView(LoginRequiredMixin, ListView):
     model = BikePost

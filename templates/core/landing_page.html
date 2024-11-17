@@ -1,7 +1,26 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-<h1>Welcome to Bike Connect!</h1>
-<p>Explore bike posts and events.</p>
-<!-- Removed problematic link -->
+<div class="hero-section text-center text-light py-5" style="background: url('https://source.unsplash.com/1600x900/?cycling,nature') no-repeat center center / cover;">
+    <h1 class="display-4">Welcome to Bike Connect</h1>
+    <p class="lead">Connect with cycling enthusiasts, plan events, and stay active!</p>
+    <a href="{% url 'event_list' %}" class="btn btn-lg btn-primary mt-3">Explore Events</a>
+</div>
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4">
+            <h3>Create Events</h3>
+            <p>Organize cycling trips and invite participants to join the fun.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Discover New Routes</h3>
+            <p>Explore the best cycling paths with others in your community.</p>
+        </div>
+        <div class="col-md-4">
+            <h3>Join a Community</h3>
+            <p>Connect with like-minded cyclists and build lasting friendships.</p>
+        </div>
+    </div>
+</div>
 {% endblock %}
