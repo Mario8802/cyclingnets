@@ -1,7 +1,32 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
+.hero-section {
+    background-size: cover;
+    color: #fff;
+    padding: 100px 20px;
 }
-.navbar-brand {
-    font-weight: bold;
+
+.card {
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.btn-primary {
+    background-color: #0056b3;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #004494;
+}
+.card {
+  border-radius: 10px;
+  transition: transform 0.2s;
+}
+.card:hover {
+  transform: scale(1.05);
+}
+.navbar {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }

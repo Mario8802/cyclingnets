@@ -23,8 +23,8 @@ class Event(models.Model):
         User,
         on_delete=models.CASCADE,
         related_name='organized_events',
-        null=True,  # Позволява NULL за старите записи
-        blank=True,  # Не изисква поле в админ формата
+        null=True,
+        blank=True,
     )
 
     def __str__(self):

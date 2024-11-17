@@ -1,23 +1,13 @@
 from pathlib import Path
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-*e49)1#xuc@kt=8-3o2q6t_r^sjdy+x0p172_4wt*tle3#h3$%'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']  # Уверете се, че URL е добавен тук
+
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
 CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
 ALLOWED_HOSTS = []
-
-
-# Application definition
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -64,8 +54,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bike_connect.wsgi.application'
 
-
-# Database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -93,18 +81,12 @@ DATABASES = {
 #     },
 # ]
 
-
-# Internationalization
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
-
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -112,10 +94,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Authentication
 AUTH_USER_MODEL = 'users.CustomUser'
 
 LOGIN_URL = '/users/login/'

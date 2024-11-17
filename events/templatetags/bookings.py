@@ -3,6 +3,7 @@ from ..models import Booking
 
 register = template.Library()
 
+
 @register.filter
 def bookings(user, event):
     try:

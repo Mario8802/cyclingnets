@@ -1,13 +1,15 @@
 from django.shortcuts import redirect, render, get_object_or_404
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, TemplateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .models import Event, Booking
-from .forms import EventForm
-from django.views.generic import UpdateView
-from django.views.generic import DeleteView
 from rest_framework import viewsets, filters
-from .models import Event
+
+from .forms import EventForm
+from .models import Event, Booking
 from .serializers import EventSerializer
+
+
+class AboutView(TemplateView):
+    template_name = "about.html"
 
 
 class EventViewSet(viewsets.ModelViewSet):
@@ -16,7 +18,6 @@ class EventViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title', 'location']
     ordering_fields = ['date', 'title']
-
 
 
 class EventDeleteView(DeleteView):
@@ -39,9 +40,8 @@ class EventUpdateView(UpdateView):
 
     def dispatch(self, request, *args, **kwargs):
         event = self.get_object()
-        # Allow superusers or the event organizer to update the event
         if not request.user.is_superuser and event.organizer != request.user:
-            return redirect('event_list')  # Redirect if not authorized
+            return redirect('event_list')
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -64,7 +64,6 @@ class EventCreateView(CreateView):
         return super().form_valid(form)
 
 
-# RSVP Handling View
 def rsvp_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     user = request.user
