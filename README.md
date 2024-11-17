@@ -13,20 +13,6 @@
 - **Interactive UI**: Beautifully designed Bootstrap-powered user interface for an engaging user experience.
 - **REST API**: Access events data via a fully functional REST API for integration with other apps or services.
 
----
-
-## 📸 Screenshots
-
-### Home Page
-![Home Page](https://via.placeholder.com/800x400)
-
-### Events List
-![Events List](https://via.placeholder.com/800x400)
-
-### Create Event
-![Create Event](https://via.placeholder.com/800x400)
-
----
 
 ## 🛠️ Technologies Used
 
