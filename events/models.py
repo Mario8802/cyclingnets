@@ -59,8 +59,12 @@ class TestModel(models.Model):
     title = models.CharField(
         max_length=100
     )
+    # models.py (Event model)
     image = models.ImageField(
-        upload_to='images/'
+        upload_to="event_images/",
+        blank=True,
+        null=True,
+        default="images/default_event.jpg"
     )
 
     def __str__(self):
