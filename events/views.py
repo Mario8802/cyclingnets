@@ -68,6 +68,7 @@ class EventCreateView(CreateView):
         return super().dispatch(request, *args, **kwargs)
 
 
+
 # Update Event
 class EventUpdateView(UpdateView):
     model = Event

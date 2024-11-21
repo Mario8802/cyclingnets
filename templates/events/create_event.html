@@ -1,9 +1,10 @@
 {% extends "base.html" %}
-{% load form_tags %}
-
+{% load static form_tags %}
 {% block content %}
-<h2 class="text-center mb-4">Create an Event</h2>
-<div class="card mx-auto" style="max-width: 600px;">
+<div class="parallax" style="background-image: url('{% static "images/event_creation_bg.jpg" %}');">
+    <h1 class="text-center text-light">Create an Event</h1>
+</div>
+<div class="card mx-auto mt-5" style="max-width: 600px;">
     <div class="card-body">
         <form method="post">
             {% csrf_token %}
@@ -23,7 +24,7 @@
                 <label for="id_location" class="form-label">Location:</label>
                 {{ form.location|add_class:"form-control" }}
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <button type="submit" class="btn btn-primary w-100">Submit</button>
         </form>
     </div>
 </div>

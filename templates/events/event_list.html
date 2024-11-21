@@ -1,12 +1,14 @@
 {% extends "base.html" %}
-{% load bookings %}
+{% load static %}
 
 {% block content %}
 <h2 class="text-center mb-4">Events</h2>
 
 <!-- Search Form -->
 <form method="get" action="{% url 'event_list' %}" class="d-flex mb-4">
-    <input type="text" name="search" class="form-control me-2" placeholder="Search events...">
+    <label>
+        <input type="text" name="search" class="form-control me-2" placeholder="Search events...">
+    </label>
     <button class="btn btn-outline-primary" type="submit">Search</button>
 </form>
 
@@ -53,3 +55,26 @@
 </div>
 {% endfor %}
 {% endblock %}
+<div class="container">
+    <h1 class="text-center">Events</h1>
+    {% if events %}
+        <div class="row">
+            {% for event in events %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <img src="{{ event.image.url|default:'images/default_event.jpg' }}" alt="{{ event.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.name }}</h5>
+                            <p>{{ event.description }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center">No events found. Create your first event now!</p>
+        <div class="text-center">
+            <a href="{% url 'events_create' %}" class="btn btn-primary">Create Event</a>
+        </div>
+    {% endif %}
+</div>

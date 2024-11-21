@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <h1>Welcome, {{ user.username }}</h1>
+    <h3>Your Events</h3>
+    <ul>
+        {% for event in events %}
+        <li>{{ event.title }} - {{ event.date }}</li>
+        {% empty %}
+        <p>You are not participating in any events yet.</p>
+        {% endfor %}
+    </ul>
+
+    <h3>Your Posts</h3>
+    <ul>
+        {% for post in posts %}
+        <li><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></li>
+        {% empty %}
+        <p>You haven't created any posts yet.</p>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

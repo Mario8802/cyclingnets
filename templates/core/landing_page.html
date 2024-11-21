@@ -57,6 +57,30 @@
         </button>
     </div>
 </div>
+<!-- News Highlights Section -->
+<div class="container py-5">
+    <h2 class="text-center mb-4">Latest News</h2>
+    <div class="row">
+        {% for news_item in latest_news %}
+        <div class="col-md-4 mb-3">
+            <div class="card">
+                {% if news_item.image %}
+                    <img src="{{ news_item.image.url }}" class="card-img-top" alt="{{ news_item.title }}">
+                {% else %}
+                    <img src="{% static 'images/default_news.jpg' %}" class="card-img-top" alt="{{ news_item.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ news_item.title }}</h5>
+                    <p class="card-text">{{ news_item.summary }}</p>
+                    <a href="{% url 'core:news_detail' news_item.pk %}" class="btn btn-primary btn-sm">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No news available at the moment.</p>
+        {% endfor %}
+    </div>
+</div>
 
 <!-- Testimonials Section -->
 <div class="container mt-5 py-5">
