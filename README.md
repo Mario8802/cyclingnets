@@ -1,4 +1,4 @@
-# 🚴‍♂️ Bike Connect
+# 🚴‍♂️ Bike Connect 
 
 **Bike Connect** is a modern web application for cycling enthusiasts! The app allows users to create, join, and manage cycling events, discover new cycling routes, and connect with like-minded individuals.
 
