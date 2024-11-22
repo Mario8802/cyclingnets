@@ -6,7 +6,8 @@ from .models import Post
 class BikePostForm(forms.ModelForm):
     class Meta:
         model = BikePost
-        fields = ['title', 'description', 'price', 'image']
+        fields = ['title', 'description', 'category']
+
 
 
 class PostForm(forms.ModelForm):

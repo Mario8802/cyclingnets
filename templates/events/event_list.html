@@ -62,7 +62,7 @@
             {% for event in events %}
                 <div class="col-md-4">
                     <div class="card">
-                        <img src="{{ event.image.url|default:'images/default_event.jpg' }}" alt="{{ event.name }}">
+                        <img src="{{ event.image.url|default:'images/login_bike.jpg' }}" alt="{{ event.name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ event.name }}</h5>
                             <p>{{ event.description }}</p>

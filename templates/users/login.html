@@ -2,22 +2,21 @@
 {% load static %}
 
 {% block content %}
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-            <li class="{{ message.tags }}">{{ message }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
-
-<div class="container mt-5">
-    <img src="{% static 'images/login.jpg' %}" alt="Login" class="img-fluid mb-3">
-    <h2>Login</h2>
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Login</button>
-    </form>
-    <p class="mt-3">Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+<div class="container mt-5 d-flex justify-content-center">
+    <div class="card shadow-lg p-4" style="width: 400px; border-radius: 10px;">
+        <div class="text-center mb-3">
+            <h2 class="fw-bold">Login to Bike Connect</h2>
+            <p>Access your profile and join our events.</p>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary w-100">Login</button>
+        </form>
+        <p class="text-center mt-3">
+            Don't have an account? 
+            <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Register here</a>.
+        </p>
+    </div>
 </div>
 {% endblock %}

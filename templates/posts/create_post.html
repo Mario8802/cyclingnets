@@ -1,11 +1,20 @@
 {% extends "base.html" %}
 
+{% block title %}Create a New Post{% endblock %}
+
 {% block content %}
-<h2>Create a New Bike Post</h2>
-<form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-primary">Submit</button>
-</form>
-<a href="{% url 'posts:bikepost_list' %}">Back to Bike Posts</a>
+<div class="container my-5">
+    <h1 class="text-center mb-4">Create a New Post</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm p-4">
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

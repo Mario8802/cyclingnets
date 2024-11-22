@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 
+{% block title %}All Bicycle Posts{% endblock %}
+
 {% block content %}
-<h2>All Posts</h2>
-<ul>
-    {% for post in posts %}
-        <li>{{ post.title }} - {{ post.author.username }}</li>
-    {% endfor %}
-</ul>
+<div class="container my-5">
+    <h1 class="text-center mb-4">All Bicycle Posts</h1>
+    <div class="list-group">
+        {% for post in bike_posts %}
+            <a href="#" class="list-group-item list-group-item-action">
+                <h5 class="mb-1">{{ post.title }}</h5>
+                <p class="mb-1">{{ post.description|truncatewords:20 }}</p>
+                <small>Posted by {{ post.posted_by.username }} | {{ post.created_at|date:"M d, Y" }}</small>
+            </a>
+        {% empty %}
+            <p>No posts available. <a href="{% url 'posts:create_post' %}">Create one now</a>.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

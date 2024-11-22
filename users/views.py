@@ -12,13 +12,14 @@ def login_view(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            messages.success(request, f"Welcome back, {user.username}! We're glad to see you again.")
             return redirect(settings.LOGIN_REDIRECT_URL)  # Redirect based on settings
         else:
             messages.error(request, "Invalid username or password. Please try again.")
     else:
         form = AuthenticationForm()
-    return render(request, 'users/login.html', {'form': form})
+    background_image = 'static/images/login/somebike.jpg'
+    return render(request, 'users/login.html', {'form': form, 'background_image': background_image})
+
 
 
 def register_view(request):
@@ -26,8 +27,10 @@ def register_view(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(request, f"Congratulations, {user.username}! Your account has been successfully created. You can now log in.")
-            return redirect('login')  # Redirect to login after successful registration
+            # Automatically log the user in after registration
+            login(request, user)
+            messages.success(request, f"Welcome, {user.username}! Your account has been successfully created.")
+            return redirect('home')  # Redirect to the homepage
         else:
             messages.error(request, "Registration failed. Please check the details and try again.")
             for field, error_list in form.errors.items():
@@ -35,14 +38,22 @@ def register_view(request):
                     messages.error(request, f"{field}: {error}")
     else:
         form = CustomUserCreationForm()
-    return render(request, 'users/register.html', {'form': form})
+    # Add the background image for the registration page
+    background_image = 'static/images/register/hero1.jpg'
+    return render(request, 'users/register.html', {'form': form, 'background_image': background_image})
+
+
 
 def logout_view(request):
     logout(request)
     messages.success(request, "You have successfully logged out.")
-    return redirect('login')  # Redirect to the login page after logging out
+    # Add the background image for the logout page
+    background_image = 'static/images/logout/passo_dello_stelvio.jpg'
+    return render(request, 'users/logout.html', {'background_image': background_image})
 
 
 @login_required
 def profile_view(request):
-    return render(request, 'users/profile.html', {'user': request.user})
+    # Add the background image for the profile page
+    background_image = 'static/images/profile/login_bike.jpg'
+    return render(request, 'users/profile.html', {'user': request.user, 'background_image': background_image})

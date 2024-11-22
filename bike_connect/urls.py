@@ -7,20 +7,19 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
-
-app_name = 'bike_connect'
-
 # REST framework router for Event API
 router = DefaultRouter()
 router.register(r'api/events', EventViewSet)
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='core/landing_page.html'), name='landing_page'),
+    path('', TemplateView.as_view(template_name='core/landing_page.html'), name='home'),  # Changed to 'home'
     path('admin/', admin.site.urls),
     path('users/', include('users.urls')),  # Include user-related URLs
     path('posts/', include('posts.urls')),  # Include posts-related URLs
     path('events/', include('events.urls')),  # Include event-related URLs
-    path('logout/', LogoutView.as_view(next_page='landing_page'), name='logout'),  # Logout URL
+    path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
+
+    # Redirect to 'home'
 ]
 
 # Include API router URLs

@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='event',
             name='image',
-            field=models.ImageField(blank=True, default='images/default_event.jpg', null=True, upload_to='event_images/'),
+            field=models.ImageField(blank=True, default='images/login_bike.jpg', null=True, upload_to='event_images/'),
         ),
         migrations.AddField(
             model_name='event',

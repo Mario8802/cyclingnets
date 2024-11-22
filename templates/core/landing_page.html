@@ -35,7 +35,7 @@
             {% for event in events %}
             <div class="carousel-item {% if forloop.first %}active{% endif %}">
                 <div class="card h-100 shadow-sm mx-auto" style="max-width: 600px;">
-                    <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'images/default_event.jpg' %}{% endif %}" class="card-img-top" alt="Event Image">
+                    <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'images/login/login_bike.jpg' %}{% endif %}" class="card-img-top" alt="Event Image">
                     <div class="card-body">
                         <h5 class="card-title">{{ event.title }}</h5>
                         <p class="card-text">{{ event.description }}</p>

@@ -37,7 +37,7 @@ class TestModel(models.Model):
         upload_to="event_images/",
         blank=True,
         null=True,
-        default="images/default_event.jpg"
+        default="images/login_bike.jpg"
     )
 
     def __str__(self):
