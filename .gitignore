@@ -1,18 +1,14 @@
-# Python files
+# Ignore Python cache files
 __pycache__/
 *.pyc
 *.pyo
 
-# Virtual Environment
+# Ignore virtual environment
 .venv/
-env/
 
-# IDE или редактори
-*.idea/
-.vscode/
-
-# Бази данни
-*.sqlite3
-
-# Чувствителни данни
+# Ignore sensitive data
 .env
+
+# Ignore IDE and editor settings
+.idea/
+.vscode/

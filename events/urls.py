@@ -11,7 +11,7 @@ router = DefaultRouter()
 router.register(r'api/events', EventViewSet)
 
 urlpatterns = [
-    path('', EventListView.as_view(), name='event_list'),
+    path('list/', EventListView.as_view(), name='event_list'),
     path('create/', EventCreateView.as_view(), name='event_create'),
     path('<int:pk>/edit/', EventUpdateView.as_view(), name='event_edit'),
     path('<int:pk>/delete/', EventDeleteView.as_view(), name='event_delete'),

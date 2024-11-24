@@ -10,10 +10,10 @@
     <!-- Event Form Card -->
     <div class="row justify-content-center">
         <div class="col-lg-6">
-            <div class="card shadow-lg p-4">
-                <h3 class="text-center mb-3">Event Details</h3>
+            <div class="card shadow-lg p-4 border-0 rounded">
+                <h3 class="text-center mb-3 text-secondary">Event Details</h3>
 
-                <!-- Show form errors -->
+                <!-- Non-field Errors -->
                 {% if form.non_field_errors %}
                 <div class="alert alert-danger">
                     {% for error in form.non_field_errors %}
@@ -27,12 +27,12 @@
 
                     <!-- Title -->
                     <div class="mb-3">
-                        <label for="id_title" class="form-label">Title:</label>
+                        <label for="id_title" class="form-label">Title</label>
                         {{ form.title }}
                         {% if form.title.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger small mt-1">
                             {% for error in form.title.errors %}
-                                <p>{{ error }}</p>
+                                {{ error }}
                             {% endfor %}
                         </div>
                         {% endif %}
@@ -40,12 +40,12 @@
 
                     <!-- Description -->
                     <div class="mb-3">
-                        <label for="id_description" class="form-label">Description:</label>
+                        <label for="id_description" class="form-label">Description</label>
                         {{ form.description }}
                         {% if form.description.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger small mt-1">
                             {% for error in form.description.errors %}
-                                <p>{{ error }}</p>
+                                {{ error }}
                             {% endfor %}
                         </div>
                         {% endif %}
@@ -53,12 +53,12 @@
 
                     <!-- Date -->
                     <div class="mb-3">
-                        <label for="id_date" class="form-label">Date:</label>
-                        <input type="text" id="id_date" name="date" class="form-control" placeholder="YYYY-MM-DD">
+                        <label for="id_date" class="form-label">Date</label>
+                        {{ form.date }}
                         {% if form.date.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger small mt-1">
                             {% for error in form.date.errors %}
-                                <p>{{ error }}</p>
+                                {{ error }}
                             {% endfor %}
                         </div>
                         {% endif %}
@@ -66,12 +66,12 @@
 
                     <!-- Location -->
                     <div class="mb-3">
-                        <label for="id_location" class="form-label">Location:</label>
+                        <label for="id_location" class="form-label">Location</label>
                         {{ form.location }}
                         {% if form.location.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger small mt-1">
                             {% for error in form.location.errors %}
-                                <p>{{ error }}</p>
+                                {{ error }}
                             {% endfor %}
                         </div>
                         {% endif %}
@@ -79,12 +79,12 @@
 
                     <!-- Image -->
                     <div class="mb-3">
-                        <label for="id_image" class="form-label">Event Image:</label>
+                        <label for="id_image" class="form-label">Event Image</label>
                         {{ form.image }}
                         {% if form.image.errors %}
-                        <div class="text-danger">
+                        <div class="text-danger small mt-1">
                             {% for error in form.image.errors %}
-                                <p>{{ error }}</p>
+                                {{ error }}
                             {% endfor %}
                         </div>
                         {% endif %}
@@ -97,21 +97,4 @@
         </div>
     </div>
 </div>
-{% endblock %}
-
-<!-- Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-{% block scripts %}
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        flatpickr("#id_date", {
-            dateFormat: "Y-m-d", // Match Django's default format
-            altInput: true,
-            altFormat: "F j, Y",
-            allowInput: false, // Забраняваме ръчно въвеждане
-        });
-    });
-</script>
 {% endblock %}

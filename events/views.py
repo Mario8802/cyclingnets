@@ -1,12 +1,14 @@
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils.http import urlencode
 from django.views.generic import (
     ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 )
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from rest_framework import viewsets, filters
+from rest_framework.response import Response
 from django.http import JsonResponse
 from django.utils.timezone import now
 
@@ -21,7 +23,7 @@ from .serializers import EventSerializer
 
 # Homepage View
 def homepage(request):
-    events = Event.objects.filter(date__gte=now()).order_by('date')[:5]  # Upcoming 5 events
+    events = Event.objects.upcoming()[:5]  # Използване на новия мениджър
     return render(request, 'core/landing_page.html', {'events': events})
 
 
@@ -49,57 +51,45 @@ class EventListView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('search', '')
-        queryset = Event.objects.filter(
-            title__icontains=query
-        ) \
-            if query else Event.objects.all()
-
-        return queryset.order_by('-date')  # Sort by date descending
+        queryset = Event.objects.all()
+        if query:
+            queryset = queryset.filter(title__icontains=query)
+        return queryset.order_by('-date')
 
 
 # Create Event
-class EventCreateView(CreateView):
+class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
     form_class = EventForm
     template_name = 'events/create_event.html'
     success_url = reverse_lazy('events:event_list')
 
     def form_valid(self, form):
-        # Set the current user as the organizer
-        form.instance.organizer = self.request.user
+        form.instance.organizer = self.request.user  # Задаване на текущия потребител като организатор
         return super().form_valid(form)
-
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return redirect(f"{settings.LOGIN_URL}?next={request.path}")
-        return super().dispatch(request, *args, **kwargs)
 
 
 # Update Event
-class EventUpdateView(UpdateView):
+class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Event
     form_class = EventForm
     template_name = 'events/update_event.html'
     success_url = reverse_lazy('events:event_list')
 
-    def dispatch(self, request, *args, **kwargs):
+    def test_func(self):
         event = self.get_object()
-        if not request.user.is_superuser and event.organizer != request.user:
-            return redirect('events:event_list')  # Restrict updates to organizers or superusers
-        return super().dispatch(request, *args, **kwargs)
+        return self.request.user.is_superuser or event.organizer == self.request.user
 
 
 # Delete Event
-class EventDeleteView(DeleteView):
+class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Event
     template_name = 'events/delete_event.html'
     success_url = reverse_lazy('events:event_list')
 
-    def dispatch(self, request, *args, **kwargs):
+    def test_func(self):
         event = self.get_object()
-        if not request.user.is_superuser and event.organizer != request.user:
-            return redirect('events:event_list')
-        return super().dispatch(request, *args, **kwargs)
+        return self.request.user.is_superuser or event.organizer == self.request.user
 
 
 # RSVP Functionality
@@ -124,18 +114,9 @@ def join_or_leave_event(request, event_id):
 
 # Upcoming Events API
 def upcoming_events(request):
-    events = Event.objects.filter(date__gte=now()).order_by('date')[:10]
-    data = [
-        {
-            "id": event.id,
-            "title": event.title,
-            "description": event.description,
-            "location": event.location,
-            "date": event.date.strftime('%Y-%m-%d'),
-        }
-        for event in events
-    ]
-    return JsonResponse(data, safe=False)
+    events = Event.objects.upcoming()[:10]
+    serializer = EventSerializer(events, many=True)
+    return JsonResponse(serializer.data, safe=False)
 
 
 # Event ViewSet for REST API

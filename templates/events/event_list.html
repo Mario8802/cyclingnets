@@ -24,12 +24,10 @@
                 <p class="card-text"><small class="text-muted">{{ event.date }}</small></p>
                 <div class="d-flex justify-content-between">
                     <a href="{% url 'events:event_edit' event.id %}" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="{% url 'events:event_rsvp' event.id %}" class="btn btn-primary btn-sm">Join</a>
-                    <a href="{% url 'events:event_rsvp' event.id %}" 
-                    class="btn {% if user in event.participants.all %}btn-secondary{% else %}btn-primary{% endif %} btn-sm">
-                    {% if user in event.participants.all %}Leave{% else %}Join{% endif %}
+                    <a href="{% url 'events:join_or_leave_event' event.id %}" 
+                       class="btn {% if user in event.participants.all %}btn-secondary{% else %}btn-primary{% endif %} btn-sm">
+                       {% if user in event.participants.all %}Leave{% else %}Join{% endif %}
                     </a>
-
                     <a href="{% url 'events:event_detail' event.id %}" class="btn btn-info btn-sm">Details</a>
                     <a href="{% url 'events:event_delete' event.id %}" class="btn btn-danger btn-sm">Delete</a>
                 </div>
@@ -60,26 +58,3 @@
 </div>
 {% endfor %}
 {% endblock %}
-<div class="container">
-    <h1 class="text-center">Events</h1>
-    {% if events %}
-        <div class="row">
-            {% for event in events %}
-                <div class="col-md-4">
-                    <div class="card">
-                        <img src="{{ event.image.url|default:'images/login_bike.jpg' }}" alt="{{ event.name }}">
-                        <div class="card-body">
-                            <h5 class="card-title">{{ event.name }}</h5>
-                            <p>{{ event.description }}</p>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    {% else %}
-        <p class="text-center">No events found. Create your first event now!</p>
-        <div class="text-center">
-            <a href="{% url 'events_create' %}" class="btn btn-primary">Create Event</a>
-        </div>
-    {% endif %}
-</div>

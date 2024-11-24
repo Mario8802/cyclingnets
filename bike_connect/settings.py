@@ -1,8 +1,15 @@
 import os
 from pathlib import Path
+import decouple
+
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+<<<<<<< HEAD
 SECRET_KEY = ''
+=======
+SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='fallback-secret-key')
+
+>>>>>>> 68f7fdd (Added .env configuration and updated .gitignore)
 
 DEBUG = True
 
@@ -100,6 +107,8 @@ DATABASES = {
 # ]
 
 LANGUAGE_CODE = 'en-us'
+USE_L10N = True  # Ensures that localization is applied if needed
+
 TIME_ZONE = 'UTC'
 
 USE_I18N = True
@@ -110,7 +119,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.CustomUser'
