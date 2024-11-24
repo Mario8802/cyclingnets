@@ -6,12 +6,19 @@ SECRET_KEY = 'django-insecure-*e49)1#xuc@kt=8-3o2q6t_r^sjdy+x0p172_4wt*tle3#h3$%
 
 DEBUG = True
 
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
+
 CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
 ALLOWED_HOSTS = []
 
-
 DJANGO_APPS = [
+    'unfold',  # before django.contrib.admin
+    'unfold.contrib.filters',  # Optional, for special filters
+    'unfold.contrib.forms',  # Optional, for special form elements
+    'unfold.contrib.inlines',  # Optional, for special inlines
+    'unfold.contrib.import_export',  # Optional, if django-import-export is used
+    'unfold.contrib.guardian',  # Optional, if django-guardian is used
+    'unfold.contrib.simple_history',  # Optional, if django-simple-history is used
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -22,8 +29,8 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',  # Django REST Framework
-    'django_filters', # For filtering in REST views
-    'widget_tweaks',
+    'django_filters',  # For filtering in REST views
+
 ]
 
 LOCAL_APPS = [
@@ -34,7 +41,6 @@ LOCAL_APPS = [
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -100,9 +106,8 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']  # Указва, че файловете са в static/
-STATIC_ROOT = BASE_DIR / 'staticfiles'  # Къде да се събират файловете след collectstatic
-
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -113,5 +118,3 @@ AUTH_USER_MODEL = 'users.CustomUser'
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/users/profile/'
 LOGOUT_REDIRECT_URL = 'home'
-# LOGIN_REDIRECT_URL = '/'
-# LOGOUT_REDIRECT_URL = '/users/login/'
