@@ -1,0 +1,18 @@
+# Python files
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual Environment
+.venv/
+env/
+
+# IDE или редактори
+*.idea/
+.vscode/
+
+# Бази данни
+*.sqlite3
+
+# Чувствителни данни
+.env
