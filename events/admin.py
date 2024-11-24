@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Booking, Event, TestModel
+from .models import Booking, Event
 
 
 @admin.register(Booking)
@@ -14,6 +14,3 @@ class EventAdmin(admin.ModelAdmin):
 
 
 
-@admin.register(TestModel)
-class TestModelAdmin(admin.ModelAdmin):
-    list_display = ('title',)

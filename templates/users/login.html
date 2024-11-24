@@ -1,21 +1,28 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 {% load static %}
 
 {% block content %}
 <div class="container mt-5 d-flex justify-content-center">
     <div class="card shadow-lg p-4" style="width: 400px; border-radius: 10px;">
+        <img src="{% static 'images/login/login_bike.jpg' %}" class="img-fluid rounded shadow-lg" alt="Enjoy">
         <div class="text-center mb-3">
             <h2 class="fw-bold">Login to Bike Connect</h2>
             <p>Access your profile and join our events.</p>
         </div>
+        
+
         <form method="POST">
             {% csrf_token %}
             {{ form.as_p }}
+            <!-- Add hidden input to capture 'next' -->
+            {% if request.GET.next %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+            {% endif %}
             <button type="submit" class="btn btn-primary w-100">Login</button>
         </form>
         <p class="text-center mt-3">
             Don't have an account? 
-            <a href="{% url 'register' %}" class="text-decoration-none fw-bold">Register here</a>.
+            <a href="{% url 'users:register' %}" class="text-decoration-none fw-bold">Register here</a>.
         </p>
     </div>
 </div>

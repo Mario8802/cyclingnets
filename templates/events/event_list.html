@@ -1,11 +1,11 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 {% load static %}
 
 {% block content %}
 <h2 class="text-center mb-4">Events</h2>
 
 <!-- Search Form -->
-<form method="get" action="{% url 'event_list' %}" class="d-flex mb-4">
+<form method="get" action="{% url 'events:event_list' %}" class="d-flex mb-4">
     <label>
         <input type="text" name="search" class="form-control me-2" placeholder="Search events...">
     </label>
@@ -23,10 +23,15 @@
                 <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
                 <p class="card-text"><small class="text-muted">{{ event.date }}</small></p>
                 <div class="d-flex justify-content-between">
-                    <a href="{% url 'event_rsvp' event.id %}" class="btn btn-primary btn-sm">Join</a>
-                    <a href="{% url 'event_edit' event.id %}" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="#" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteModal{{ event.id }}">Delete</a>
-                    <a href="{% url 'event_detail' event.id %}" class="btn btn-info btn-sm">Details</a>
+                    <a href="{% url 'events:event_edit' event.id %}" class="btn btn-warning btn-sm">Edit</a>
+                    <a href="{% url 'events:event_rsvp' event.id %}" class="btn btn-primary btn-sm">Join</a>
+                    <a href="{% url 'events:event_rsvp' event.id %}" 
+                    class="btn {% if user in event.participants.all %}btn-secondary{% else %}btn-primary{% endif %} btn-sm">
+                    {% if user in event.participants.all %}Leave{% else %}Join{% endif %}
+                    </a>
+
+                    <a href="{% url 'events:event_detail' event.id %}" class="btn btn-info btn-sm">Details</a>
+                    <a href="{% url 'events:event_delete' event.id %}" class="btn btn-danger btn-sm">Delete</a>
                 </div>
             </div>
         </div>
@@ -47,7 +52,7 @@
         Are you sure you want to delete "{{ event.title }}"?
       </div>
       <div class="modal-footer">
-        <a href="{% url 'event_delete' event.id %}" class="btn btn-danger">Yes, Delete</a>
+        <a href="{% url 'events:event_delete' event.id %}" class="btn btn-danger">Yes, Delete</a>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
       </div>
     </div>

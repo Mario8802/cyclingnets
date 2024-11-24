@@ -1,0 +1,113 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+/* Navbar */
+.navbar-brand img {
+    margin-right: 10px;
+}
+.nav-link {
+    font-size: 1.1rem;
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+.nav-link:hover {
+    color: #fff;
+}
+
+/* Hero Section */
+.hero-section {
+    background: url('/static/images/home/hero.jpg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 100px 0;
+    text-align: center;
+    color: #fff;
+    text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+}
+.hero-section .btn-primary {
+    font-size: 1.5rem;
+    padding: 15px 40px;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.hero-section .btn-primary:hover {
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Cards (Reusable Component for Events, Buy & Sell) */
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card img {
+    border-radius: 15px 15px 0 0;
+    height: 200px;
+    object-fit: cover;
+}
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+}
+.card h5 {
+    font-size: 1.2rem;
+    color: #0056b3;
+    text-align: center;
+}
+.card p {
+    font-size: 0.9rem;
+    color: #666;
+    text-align: center;
+}
+
+/* Footer */
+footer {
+    background-color: #222;
+    color: #bbb;
+}
+footer a {
+    color: #0056b3;
+    text-decoration: none;
+}
+footer a:hover {
+    color: #ffc107;
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 50px 0;
+    }
+    .hero-section .btn-primary {
+        font-size: 1.2rem;
+        padding: 10px 30px;
+    }
+}
+.card {
+    border-radius: 15px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.card img {
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0;
+}
+
+.card-body {
+    text-align: center;
+}

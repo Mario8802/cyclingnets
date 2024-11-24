@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 {% load static %}
 
 {% block content %}
@@ -6,7 +6,7 @@
 <div class="hero-section text-center text-light py-5" style="background: url('{% static "images/passo_dello_stelvio.jpg" %}') no-repeat center center / cover;">
     <h1 class="display-4">Welcome to Bike Connect</h1>
     <p class="lead">Connect with cycling enthusiasts, plan events, and stay active!</p>
-    <a href="{% url 'event_list' %}" class="btn btn-lg btn-primary mt-3">Explore Events</a>
+    <a href="{% url 'events:event_list' %}" class="btn btn-lg btn-primary mt-3">Explore Events</a>
 </div>
 
 <!-- Features Section -->
@@ -110,6 +110,6 @@
 <!-- Call to Action Section -->
 <div class="container text-center my-5">
     <h3>Start your journey with Bike Connect today!</h3>
-    <a href="{% url 'event_create' %}" class="btn btn-lg btn-success mt-3">Create Your First Event</a>
+    <a href="{% url 'events:event_create' %}" class="btn btn-lg btn-success mt-3">Create Your First Event</a>
 </div>
 {% endblock %}

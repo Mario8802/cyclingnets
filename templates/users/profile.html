@@ -1,25 +1,48 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 {% load static %}
 
-{% block content %}
-<div class="container">
-    <h1>Welcome, {{ user.username }}</h1>
-    <h3>Your Events</h3>
-    <ul>
-        {% for event in events %}
-        <li>{{ event.title }} - {{ event.date }}</li>
-        {% empty %}
-        <p>You are not participating in any events yet.</p>
-        {% endfor %}
-    </ul>
+{% block title %}Profile - Bike Connect{% endblock %}
 
-    <h3>Your Posts</h3>
-    <ul>
-        {% for post in posts %}
-        <li><a href="{% url 'post_detail' post.id %}">{{ post.title }}</a></li>
-        {% empty %}
-        <p>You haven't created any posts yet.</p>
-        {% endfor %}
-    </ul>
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-body text-center">
+                    <h2 class="card-title">Welcome, {{ user.username }}!</h2>
+                    <p class="text-muted">Here’s a summary of your activity:</p>
+                    <div class="mt-4">
+                        <h5>Your Events</h5>
+                        {% if user.event_participants.exists %}
+                            <ul class="list-group">
+                                {% for event in user.event_participants.all %}
+                                    <li class="list-group-item">
+                                        {{ event.title }} - <small>{{ event.date }}</small>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>You are not participating in any events yet.</p>
+                        {% endif %}
+                    </div>
+                    <div class="mt-4">
+                        <h5>Your Posts</h5>
+                        {% if user.posts.exists %}
+                            <ul class="list-group">
+                                {% for post in user.posts.all %}
+                                    <li class="list-group-item">
+                                        {{ post.title }} - <small>{{ post.created_at }}</small>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>You haven’t created any posts yet.</p>
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'events:event_list' %}" class="btn btn-primary mt-4">Explore Events</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

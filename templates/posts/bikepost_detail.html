@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base/base.html" %}
 
 {% block title %}{{ bike_post.title }}{% endblock %}
 
@@ -15,7 +15,8 @@
                     <p class="card-text">{{ bike_post.description }}</p>
                     <p class="text-success fw-bold">Price: {{ bike_post.price }}</p>
                     <p class="text-muted">Posted by {{ bike_post.posted_by.username }} on {{ bike_post.created_at|date:"M d, Y" }}</p>
-                    <a href="{% url 'bikepost_list' %}" class="btn btn-secondary">Back to Posts</a>
+                    <a href="{% url 'posts:bikepost_list' %}" class="btn btn-secondary">Back to Posts</a>
+
                 </div>
             </div>
         <a href="{% url 'posts:bikepost_list' %}" class="btn btn-secondary">Back to Posts</a>

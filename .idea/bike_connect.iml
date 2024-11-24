@@ -16,11 +16,12 @@
     <content url="file://$MODULE_DIR$">
       <excludeFolder url="file://$MODULE_DIR$/.venv" />
     </content>
-    <orderEntry type="jdk" jdkName="Python 3.11 (bike_connect)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Python 3.11 (DjangoModelsEx)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="bootstrap" level="application" />
     <orderEntry type="library" name="aos" level="application" />
     <orderEntry type="library" name="font-awesome" level="application" />
+    <orderEntry type="library" name="flatpickr" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />

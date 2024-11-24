@@ -1,30 +1,35 @@
-from django.contrib.auth.views import LogoutView
+from django.contrib import admin
+from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
 from events.views import EventViewSet
-from django.conf import settings
-from django.conf.urls.static import static
-from django.contrib import admin
-from django.urls import path, include
+from users.views import logout_view
 
 # REST framework router for Event API
 router = DefaultRouter()
 router.register(r'api/events', EventViewSet)
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='core/landing_page.html'), name='home'),  # Changed to 'home'
-    path('admin/', admin.site.urls),
-    path('users/', include('users.urls')),  # Include user-related URLs
-    path('posts/', include('posts.urls')),  # Include posts-related URLs
-    path('events/', include('events.urls')),  # Include event-related URLs
-    path('logout/', LogoutView.as_view(next_page='home'), name='logout'),
+    # Основна страница (home)
+    path('', TemplateView.as_view(template_name='core/landing_page.html'), name='home'),
 
-    # Redirect to 'home'
+    # Админ панел
+    path('admin/', admin.site.urls),
+
+    # Приложения
+    path('users/', include('users.urls')),  # URL-ове за потребители
+    path('posts/', include('posts.urls')),  # URL-ове за публикации
+    path('events/', include('events.urls')),  # URL-ове за събития
+
+    # Logout с пренасочване
+    path('logout/', logout_view, name='logout'),
 ]
 
-# Include API router URLs
+# Добавяне на API маршрути
 urlpatterns += router.urls
 
-# Add media files in DEBUG mode
+# Обслужване на медийни файлове в DEBUG режим
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

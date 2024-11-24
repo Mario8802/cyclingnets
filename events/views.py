@@ -1,4 +1,6 @@
+from django.conf import settings
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils.http import urlencode
 from django.views.generic import (
     ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 )
@@ -25,7 +27,7 @@ def homepage(request):
 
 # About View
 class AboutView(TemplateView):
-    template_name = "about.html"
+    template_name = "about/about.html"
 
 
 # Event Detail View
@@ -56,15 +58,16 @@ class EventCreateView(CreateView):
     model = Event
     form_class = EventForm
     template_name = 'events/create_event.html'
-    success_url = reverse_lazy('event_list')
+    success_url = reverse_lazy('events:event_list')
 
     def form_valid(self, form):
-        form.instance.organizer = self.request.user  # Set the current user as the organizer
+        # Set the current user as the organizer
+        form.instance.organizer = self.request.user
         return super().form_valid(form)
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect('login')  # Redirect unauthenticated users to login
+            return redirect(f"{settings.LOGIN_URL}?next={request.path}")
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -74,12 +77,12 @@ class EventUpdateView(UpdateView):
     model = Event
     form_class = EventForm
     template_name = 'events/update_event.html'
-    success_url = reverse_lazy('event_list')
+    success_url = reverse_lazy('events:event_list')
 
     def dispatch(self, request, *args, **kwargs):
         event = self.get_object()
         if not request.user.is_superuser and event.organizer != request.user:
-            return redirect('event_list')  # Restrict updates to organizers or superusers
+            return redirect('events:event_list')  # Restrict updates to organizers or superusers
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -87,12 +90,12 @@ class EventUpdateView(UpdateView):
 class EventDeleteView(DeleteView):
     model = Event
     template_name = 'events/delete_event.html'
-    success_url = reverse_lazy('event_list')
+    success_url = reverse_lazy('events:event_list')
 
     def dispatch(self, request, *args, **kwargs):
         event = self.get_object()
         if not request.user.is_superuser and event.organizer != request.user:
-            return redirect('event_list')  # Restrict deletion to organizers or superusers
+            return redirect('events:event_list')
         return super().dispatch(request, *args, **kwargs)
 
 
@@ -109,9 +112,7 @@ def rsvp_event(request, event_id):
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse({"status": rsvp_status})
-    return redirect('event_list')
-
-
+    return redirect('events:event_list')  # Update namespace
 
 # --------------------------
 # API Views

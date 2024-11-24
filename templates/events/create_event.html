@@ -1,31 +1,114 @@
-{% extends "base.html" %}
-{% load static form_tags %}
+{% extends "base/base.html" %}
 {% block content %}
-<div class="parallax" style="background-image: url('{% static "images/event_creation_bg.jpg" %}');">
-    <h1 class="text-center text-light">Create an Event</h1>
-</div>
-<div class="card mx-auto mt-5" style="max-width: 600px;">
-    <div class="card-body">
-        <form method="post">
-            {% csrf_token %}
-            <div class="mb-3">
-                <label for="id_title" class="form-label">Title:</label>
-                {{ form.title|add_class:"form-control" }}
+<div class="container mt-5">
+    <!-- Title Section -->
+    <div class="text-center mb-4">
+        <h1 class="text-primary">Create an Event</h1>
+        <p class="text-muted">Plan your next adventure and connect with others.</p>
+    </div>
+
+    <!-- Event Form Card -->
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow-lg p-4">
+                <h3 class="text-center mb-3">Event Details</h3>
+
+                <!-- Show form errors -->
+                {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.non_field_errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Title -->
+                    <div class="mb-3">
+                        <label for="id_title" class="form-label">Title:</label>
+                        {{ form.title }}
+                        {% if form.title.errors %}
+                        <div class="text-danger">
+                            {% for error in form.title.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="id_description" class="form-label">Description:</label>
+                        {{ form.description }}
+                        {% if form.description.errors %}
+                        <div class="text-danger">
+                            {% for error in form.description.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Date -->
+                    <div class="mb-3">
+                        <label for="id_date" class="form-label">Date:</label>
+                        {{ form.date }}
+                        {% if form.date.errors %}
+                        <div class="text-danger">
+                            {% for error in form.date.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Location -->
+                    <div class="mb-3">
+                        <label for="id_location" class="form-label">Location:</label>
+                        {{ form.location }}
+                        {% if form.location.errors %}
+                        <div class="text-danger">
+                            {% for error in form.location.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Image -->
+                    <div class="mb-3">
+                        <label for="id_image" class="form-label">Event Image:</label>
+                        {{ form.image }}
+                        {% if form.image.errors %}
+                        <div class="text-danger">
+                            {% for error in form.image.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary w-100">Create Event</button>
+                </form>
             </div>
-            <div class="mb-3">
-                <label for="id_description" class="form-label">Description:</label>
-                {{ form.description|add_class:"form-control" }}
-            </div>
-            <div class="mb-3">
-                <label for="id_date" class="form-label">Date:</label>
-                {{ form.date|add_class:"form-control" }}
-            </div>
-            <div class="mb-3">
-                <label for="id_location" class="form-label">Location:</label>
-                {{ form.location|add_class:"form-control" }}
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Submit</button>
-        </form>
+        </div>
     </div>
 </div>
+{% endblock %}
+
+<!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        flatpickr("#id_date", {
+            dateFormat: "Y-m-d", // Match Django's default format
+        });
+    });
+</script>
 {% endblock %}

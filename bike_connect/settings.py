@@ -10,20 +10,31 @@ CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000']
 CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
 ALLOWED_HOSTS = []
 
-INSTALLED_APPS = [
+
+DJANGO_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'core',
-    'users',
-    'posts',
-    'events',
-    'rest_framework',
-    'django_filters'
 ]
+
+THIRD_PARTY_APPS = [
+    'rest_framework',  # Django REST Framework
+    'django_filters', # For filtering in REST views
+    'widget_tweaks',
+]
+
+LOCAL_APPS = [
+    'core',    # Custom core app
+    'users',   # Custom user app
+    'posts',   # Posts app
+    'events',  # Events app
+]
+
+INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,11 +99,10 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']  # Указва, че файловете са в static/
+STATIC_ROOT = BASE_DIR / 'staticfiles'  # Къде да се събират файловете след collectstatic
 
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
@@ -101,7 +111,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.CustomUser'
 
 LOGIN_URL = '/users/login/'
-LOGIN_REDIRECT_URL = '/' # Example profile redirect
-LOGOUT_REDIRECT_URL = '/users/login/'
+LOGIN_REDIRECT_URL = '/users/profile/'
+LOGOUT_REDIRECT_URL = 'home'
 # LOGIN_REDIRECT_URL = '/'
 # LOGOUT_REDIRECT_URL = '/users/login/'
