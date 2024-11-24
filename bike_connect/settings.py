@@ -4,12 +4,10 @@ import decouple
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-<<<<<<< HEAD
-SECRET_KEY = ''
-=======
+
 SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='fallback-secret-key')
 
->>>>>>> 68f7fdd (Added .env configuration and updated .gitignore)
+
 
 DEBUG = True
 
