@@ -54,7 +54,7 @@
                     <!-- Date -->
                     <div class="mb-3">
                         <label for="id_date" class="form-label">Date:</label>
-                        {{ form.date }}
+                        <input type="text" id="id_date" name="date" class="form-control" placeholder="YYYY-MM-DD">
                         {% if form.date.errors %}
                         <div class="text-danger">
                             {% for error in form.date.errors %}
@@ -108,6 +108,9 @@
     document.addEventListener("DOMContentLoaded", function() {
         flatpickr("#id_date", {
             dateFormat: "Y-m-d", // Match Django's default format
+            altInput: true,
+            altFormat: "F j, Y",
+            allowInput: false, // Забраняваме ръчно въвеждане
         });
     });
 </script>

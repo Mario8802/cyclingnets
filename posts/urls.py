@@ -9,5 +9,5 @@ urlpatterns = [
     path('create/', views.create_post, name='create_post'),
     path('<int:pk>/edit/', views.edit_post, name='bikepost_edit'),
     path('<int:pk>/delete/', views.delete_post, name='bikepost_delete'),
-    path('buy-sell/', views.BuySellView.as_view(), name='buy_sell'),  # Добавен BuySellView
+    path('buy-sell/', views.BuySellView.as_view(), name='buy_sell'),
 ]

@@ -7,6 +7,7 @@ from django.contrib import messages
 from .models import BikePost
 from .forms import BikePostForm
 
+
 @login_required
 def create_post(request):
     if request.method == 'POST':
@@ -24,21 +25,26 @@ def create_post(request):
         form = BikePostForm()
     return render(request, 'posts/create_post.html', {'form': form})
 
+
 @login_required
 def edit_post(request, pk):
     bike_post = get_object_or_404(BikePost, pk=pk)
     if request.user != bike_post.posted_by:
         messages.error(request, "You are not allowed to edit this post.")
         return redirect('posts:bikepost_list')
+
     if request.method == 'POST':
         form = BikePostForm(request.POST, request.FILES, instance=bike_post)
         if form.is_valid():
             form.save()
             messages.success(request, "Your post has been updated.")
+
             return redirect('posts:bikepost_detail', pk=bike_post.pk)
     else:
         form = BikePostForm(instance=bike_post)
+
     return render(request, 'posts/edit_post.html', {'form': form, 'bike_post': bike_post})
+
 
 @login_required
 def delete_post(request, pk):
@@ -49,6 +55,7 @@ def delete_post(request, pk):
     else:
         messages.error(request, "You are not allowed to delete this post.")
     return redirect('posts:bikepost_list')
+
 
 class BikePostListView(LoginRequiredMixin, ListView):
     model = BikePost
@@ -62,18 +69,23 @@ class BikePostListView(LoginRequiredMixin, ListView):
         location = self.request.GET.get('location')
         queryset = BikePost.objects.all()
         if query:
-            queryset = queryset.filter(Q(title__icontains=query) | Q(description__icontains=query))
+            queryset = queryset.filter(
+                Q(title__icontains=query)
+                | Q(description__icontains=query)
+            )
         if category:
             queryset = queryset.filter(category=category)
         if location:
             queryset = queryset.filter(location__icontains=location)
         return queryset
 
+
 class BikePostDetailView(LoginRequiredMixin, DetailView):
     model = BikePost
     template_name = 'posts/bikepost_detail.html'
     context_object_name = 'bike_post'
     login_url = 'login'
+
 
 class BuySellView(LoginRequiredMixin, ListView):
     model = BikePost

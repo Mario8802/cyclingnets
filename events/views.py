@@ -49,7 +49,11 @@ class EventListView(ListView):
 
     def get_queryset(self):
         query = self.request.GET.get('search', '')
-        queryset = Event.objects.filter(title__icontains=query) if query else Event.objects.all()
+        queryset = Event.objects.filter(
+            title__icontains=query
+        ) \
+            if query else Event.objects.all()
+
         return queryset.order_by('-date')  # Sort by date descending
 
 
@@ -69,7 +73,6 @@ class EventCreateView(CreateView):
         if not request.user.is_authenticated:
             return redirect(f"{settings.LOGIN_URL}?next={request.path}")
         return super().dispatch(request, *args, **kwargs)
-
 
 
 # Update Event
@@ -101,18 +104,19 @@ class EventDeleteView(DeleteView):
 
 # RSVP Functionality
 @login_required
-def rsvp_event(request, event_id):
+def join_or_leave_event(request, event_id):
     event = get_object_or_404(Event, id=event_id)
     if request.user in event.participants.all():
         event.participants.remove(request.user)
-        rsvp_status = "removed"
+        status = "left"
     else:
         event.participants.add(request.user)
-        rsvp_status = "added"
+        status = "joined"
 
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({"status": rsvp_status})
-    return redirect('events:event_list')  # Update namespace
+        return JsonResponse({"status": status})
+    return redirect('events:event_list')
+
 
 # --------------------------
 # API Views

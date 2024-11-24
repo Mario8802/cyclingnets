@@ -3,7 +3,6 @@ from django.conf import settings
 from django.utils.timezone import now
 
 
-
 class Booking(models.Model):
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
@@ -18,14 +17,21 @@ class Booking(models.Model):
     booking_date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.user.username} booked {self.event.title} on {self.booking_date}"
+        return (f"{self.user.username} booked"
+                f" {self.event.title} on {self.booking_date}")
 
 
 class Event(models.Model):
-    title = models.CharField(max_length=255)
+    title = models.CharField(
+        max_length=255
+    )
     date = models.DateField()
-    location = models.CharField(max_length=255)
-    description = models.TextField(blank=True, null=True)
+    location = models.CharField(
+        max_length=255
+    )
+    description = models.TextField(
+        blank=True, null=True
+    )
     organizer = models.ForeignKey(
         settings.AUTH_USER_MODEL,
         on_delete=models.CASCADE,
@@ -50,5 +56,5 @@ class Event(models.Model):
         return self.title
 
     class Meta:
-        ordering = ['-date']  # Последните събития ще са първи
+        ordering = ['-date']
 
