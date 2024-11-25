@@ -24,10 +24,12 @@
                 <p class="card-text"><small class="text-muted">{{ event.date }}</small></p>
                 <div class="d-flex justify-content-between">
                     <a href="{% url 'events:event_edit' event.id %}" class="btn btn-warning btn-sm">Edit</a>
-                    <a href="{% url 'events:join_or_leave_event' event.id %}" 
-                       class="btn {% if user in event.participants.all %}btn-secondary{% else %}btn-primary{% endif %} btn-sm">
-                       {% if user in event.participants.all %}Leave{% else %}Join{% endif %}
-                    </a>
+                    <form method="post" action="{% url 'events:join_or_leave_event' event.id %}" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn {% if user in event.participants.all %}btn-secondary{% else %}btn-primary{% endif %} btn-sm join-leave-btn">
+                            {% if user in event.participants.all %}Leave{% else %}Join{% endif %}
+                        </button>
+                    </form>
                     <a href="{% url 'events:event_detail' event.id %}" class="btn btn-info btn-sm">Details</a>
                     <a href="{% url 'events:event_delete' event.id %}" class="btn btn-danger btn-sm">Delete</a>
                 </div>
@@ -36,25 +38,39 @@
     </div>
     {% endfor %}
 </div>
+{% endblock %}
 
-<!-- Modals for Deletion -->
-{% for event in events %}
-<div class="modal fade" id="deleteModal{{ event.id }}" tabindex="-1" aria-labelledby="deleteModalLabel{{ event.id }}" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="deleteModalLabel{{ event.id }}">Confirm Delete</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        Are you sure you want to delete "{{ event.title }}"?
-      </div>
-      <div class="modal-footer">
-        <a href="{% url 'events:event_delete' event.id %}" class="btn btn-danger">Yes, Delete</a>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-      </div>
-    </div>
-  </div>
-</div>
-{% endfor %}
+{% block scripts %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelectorAll(".join-leave-btn").forEach(function(button) {
+            button.addEventListener("click", function(event) {
+                event.preventDefault();
+                const form = this.closest("form");
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: "POST",
+                    body: formData,
+                    headers: {
+                        "X-Requested-With": "XMLHttpRequest",
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === "joined") {
+                        this.textContent = "Leave";
+                        this.classList.remove("btn-primary");
+                        this.classList.add("btn-secondary");
+                    } else if (data.status === "left") {
+                        this.textContent = "Join";
+                        this.classList.remove("btn-secondary");
+                        this.classList.add("btn-primary");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        });
+    });
+</script>
 {% endblock %}

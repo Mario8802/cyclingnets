@@ -13,27 +13,40 @@
     {% block head_extra %}{% endblock %}
 </head>
 <body>
-    <!-- Include Navbar -->
+    <!-- Navbar -->
     {% include 'partials/navbar.html' %}
+
+    <!-- Flash Messages -->
+    {% if messages %}
+    <div class="container mt-3">
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Create Event Button (Fixed to the top of the page) -->
+    <div class="text-center mt-4">
+        <a href="{% url 'events:event_create' %}" class="btn btn-success btn-lg shadow">Create Event</a>
+    </div>
+
+    <!-- Hero Section (Optional for Landing Page) -->
+    {% block hero %}
+    <div class="hero-section text-center py-5">
+        <h1 class="display-4">Welcome to Bike Connect</h1>
+        <p class="lead">Your hub for cycling events, stories, and experiences.</p>
+    </div>
+    {% endblock %}
 
     <!-- Main Content -->
     <main class="container mt-5">
         {% block content %}{% endblock %}
-
-        <!-- Flash Messages -->
-        {% if messages %}
-        <div class="container mt-3">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        </div>
-        {% endif %}
     </main>
 
-    <!-- Include Footer -->
+    <!-- Footer -->
     {% include 'partials/footer.html' %}
 
     <!-- Bootstrap JS -->

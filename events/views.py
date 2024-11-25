@@ -1,33 +1,48 @@
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404, redirect
-from django.utils.http import urlencode
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (
     ListView, CreateView, UpdateView, DeleteView, DetailView, TemplateView
 )
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from rest_framework import viewsets, filters
-from rest_framework.response import Response
-from django.http import JsonResponse
-from django.utils.timezone import now
+from rest_framework import viewsets
 
-from .models import Event
+from .models import Event, Participation, Story, Experience
 from .forms import EventForm
 from .serializers import EventSerializer
+
+
+class EventViewSet(viewsets.ModelViewSet):
+    """
+    A ViewSet for viewing and editing Event instances.
+    """
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
 
 
 # --------------------------
 # Public Views
 # --------------------------
 
-# Homepage View
+# Landing Page
 def homepage(request):
-    events = Event.objects.upcoming()[:5]  # Използване на новия мениджър
-    return render(request, 'core/landing_page.html', {'events': events})
+    events = Event.objects.all()[:5]
+    stories = Story.objects.all()[:5]
+    participations = Participation.objects.filter(user=request.user) if request.user.is_authenticated else []
+    experiences = Experience.objects.filter(participant__user=request.user) if request.user.is_authenticated else []
+
+    return render(request, 'core/landing_page.html', {
+        'events': events,
+        'stories': stories,
+        'participations': participations,
+        'experiences': experiences
+    })
 
 
-# About View
+# About Page
 class AboutView(TemplateView):
     template_name = "about/about.html"
 
@@ -38,12 +53,19 @@ class EventDetailView(DetailView):
     template_name = 'events/event_detail.html'
     context_object_name = 'event'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.user.is_authenticated:
+            context['participation_status'] = Participation.objects.filter(
+                user=self.request.user, event=self.object
+            ).exists()
+        return context
+
 
 # --------------------------
 # Event Management Views
 # --------------------------
 
-# List Events
 class EventListView(ListView):
     model = Event
     template_name = 'events/event_list.html'
@@ -57,7 +79,6 @@ class EventListView(ListView):
         return queryset.order_by('-date')
 
 
-# Create Event
 class EventCreateView(LoginRequiredMixin, CreateView):
     model = Event
     form_class = EventForm
@@ -65,23 +86,17 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('events:event_list')
 
     def form_valid(self, form):
-        form.instance.organizer = self.request.user  # Задаване на текущия потребител като организатор
+        form.instance.organizer = self.request.user
         return super().form_valid(form)
 
 
-# Update Event
-class EventUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class EventUpdateView(UpdateView):
     model = Event
     form_class = EventForm
-    template_name = 'events/update_event.html'
+    template_name = 'events/edit_event.html'
     success_url = reverse_lazy('events:event_list')
 
-    def test_func(self):
-        event = self.get_object()
-        return self.request.user.is_superuser or event.organizer == self.request.user
 
-
-# Delete Event
 class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Event
     template_name = 'events/delete_event.html'
@@ -92,37 +107,54 @@ class EventDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user.is_superuser or event.organizer == self.request.user
 
 
-# RSVP Functionality
+@csrf_exempt
 @login_required
 def join_or_leave_event(request, event_id):
-    event = get_object_or_404(Event, id=event_id)
-    if request.user in event.participants.all():
-        event.participants.remove(request.user)
-        status = "left"
-    else:
-        event.participants.add(request.user)
-        status = "joined"
+    if request.method == "POST":
+        event = get_object_or_404(Event, id=event_id)
+        participation, created = Participation.objects.get_or_create(user=request.user, event=event)
 
-    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        if created:
+            status = "joined"
+        else:
+            participation.delete()
+            status = "left"
+
         return JsonResponse({"status": status})
-    return redirect('events:event_list')
+    return JsonResponse({"error": "Invalid request"}, status=400)
 
 
 # --------------------------
-# API Views
+# Stories and Experiences
 # --------------------------
 
-# Upcoming Events API
-def upcoming_events(request):
-    events = Event.objects.upcoming()[:10]
-    serializer = EventSerializer(events, many=True)
-    return JsonResponse(serializer.data, safe=False)
+class StoryListView(ListView):
+    model = Story
+    template_name = 'stories/story_list.html'
+    context_object_name = 'stories'
 
 
-# Event ViewSet for REST API
-class EventViewSet(viewsets.ModelViewSet):
-    queryset = Event.objects.all()
-    serializer_class = EventSerializer
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['title', 'location']
-    ordering_fields = ['date', 'title']
+class StoryCreateView(LoginRequiredMixin, CreateView):
+    model = Story
+    fields = ['title', 'content', 'image']
+    template_name = 'stories/story_create.html'
+    success_url = reverse_lazy('stories:story_list')
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+
+class ExperienceCreateView(LoginRequiredMixin, CreateView):
+    model = Experience
+    fields = ['feedback', 'rating']
+    template_name = 'experiences/experience_create.html'
+
+    def form_valid(self, form):
+        event_id = self.kwargs['event_id']
+        form.instance.event = get_object_or_404(Event, id=event_id)
+        participation = Participation.objects.filter(user=self.request.user, event=form.instance.event).first()
+        if not participation:
+            return JsonResponse({"error": "You must join the event first!"}, status=400)
+        form.instance.participant = participation
+        return super().form_valid(form)

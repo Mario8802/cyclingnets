@@ -62,3 +62,4 @@ def profile_view(request):
     """
     background_image = 'static/images/profile/login_bike.jpg'
     return render(request, 'users/profile.html', {'user': request.user, 'background_image': background_image})
+

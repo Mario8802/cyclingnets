@@ -2,12 +2,9 @@ import os
 from pathlib import Path
 import decouple
 
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='fallback-secret-key')
-
-
 
 DEBUG = True
 
@@ -17,13 +14,13 @@ CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
 ALLOWED_HOSTS = []
 
 DJANGO_APPS = [
-    'unfold',  # before django.contrib.admin
-    'unfold.contrib.filters',  # Optional, for special filters
-    'unfold.contrib.forms',  # Optional, for special form elements
-    'unfold.contrib.inlines',  # Optional, for special inlines
-    'unfold.contrib.import_export',  # Optional, if django-import-export is used
-    'unfold.contrib.guardian',  # Optional, if django-guardian is used
-    'unfold.contrib.simple_history',  # Optional, if django-simple-history is used
+    # 'unfold',  # before django.contrib.admin
+    # 'unfold.contrib.filters',  # Optional, for special filters
+    # 'unfold.contrib.forms',  # Optional, for special form elements
+    # 'unfold.contrib.inlines',  # Optional, for special inlines
+    # 'unfold.contrib.import_export',  # Optional, if django-import-export is used
+    # 'unfold.contrib.guardian',  # Optional, if django-guardian is used
+    # 'unfold.contrib.simple_history',  # Optional, if django-simple-history is used
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,9 +36,9 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'core',    # Custom core app
-    'users',   # Custom user app
-    'posts',   # Posts app
+    'core',  # Custom core app
+    'users',  # Custom user app
+    'posts',  # Posts app
     'events',  # Events app
 ]
 
@@ -113,7 +110,9 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'

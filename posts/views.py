@@ -95,3 +95,5 @@ class BuySellView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return BikePost.objects.filter(category__in=['buy', 'sell'])
+
+

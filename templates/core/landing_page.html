@@ -27,7 +27,64 @@
     </div>
 </div>
 
+<!-- Stories Section -->
+<!-- Stories Section -->
+{% if stories %}
+    <div class="container py-5">
+        <h2 class="text-center mb-4">Latest Stories</h2>
+            <div class="row">
+                {% for story in stories %}
+                <div class="col-md-4">
+                    <h5>{{ story.title }}</h5>
+                        <p>{{ story.content|truncatewords:20 }}</p>
+                </div>
+            {% endfor %}
+        </div>
+</div>
+{% else %}
+    <div class="container py-5">
+        <p class="text-center">No stories available at the moment.</p>
+    </div>
+{% endif %}
+
+<!-- Participations Section -->
+{% if participations %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">Your Participations</h2>
+    <ul class="list-group">
+        {% for participation in participations %}
+        <li class="list-group-item">
+            <strong>{{ participation.event.title }}</strong> - {{ participation.status }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div class="container py-5">
+    <p class="text-center">No participations found.</p>
+</div>
+{% endif %}
+
+<!-- Experiences Section -->
+{% if experiences %}
+<div class="container py-5">
+    <h2 class="text-center mb-4">Your Experiences</h2>
+    <ul class="list-group">
+        {% for experience in experiences %}
+        <li class="list-group-item">
+            <strong>{{ experience.feedback }}</strong> - Rating: {{ experience.rating }}
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% else %}
+<div class="container py-5">
+    <p class="text-center">No experiences shared yet.</p>
+</div>
+{% endif %}
+
 <!-- Upcoming Events Section -->
+{% if events %}
 <div class="container mt-5">
     <h2 class="text-center mb-4">Upcoming Events</h2>
     <div id="upcomingEventsCarousel" class="carousel slide" data-bs-ride="carousel">
@@ -57,59 +114,5 @@
         </button>
     </div>
 </div>
-<!-- News Highlights Section -->
-<div class="container py-5">
-    <h2 class="text-center mb-4">Latest News</h2>
-    <div class="row">
-        {% for news_item in latest_news %}
-        <div class="col-md-4 mb-3">
-            <div class="card">
-                {% if news_item.image %}
-                    <img src="{{ news_item.image.url }}" class="card-img-top" alt="{{ news_item.title }}">
-                {% else %}
-                    <img src="{% static 'images/default_news.jpg' %}" class="card-img-top" alt="{{ news_item.title }}">
-                {% endif %}
-                <div class="card-body">
-                    <h5 class="card-title">{{ news_item.title }}</h5>
-                    <p class="card-text">{{ news_item.summary }}</p>
-                    <a href="{% url 'core:news_detail' news_item.pk %}" class="btn btn-primary btn-sm">Read More</a>
-                </div>
-            </div>
-        </div>
-        {% empty %}
-        <p class="text-center">No news available at the moment.</p>
-        {% endfor %}
-    </div>
-</div>
-
-<!-- Testimonials Section -->
-<div class="container mt-5 py-5">
-    <h2 class="text-center mb-4">What Our Users Say</h2>
-    <div class="row">
-        <div class="col-md-4">
-            <blockquote class="blockquote text-center">
-                <p>"Bike Connect changed the way I plan my cycling trips!"</p>
-                <footer class="blockquote-footer">John Doe</footer>
-            </blockquote>
-        </div>
-        <div class="col-md-4">
-            <blockquote class="blockquote text-center">
-                <p>"It's so easy to find new cycling routes and events!"</p>
-                <footer class="blockquote-footer">Jane Smith</footer>
-            </blockquote>
-        </div>
-        <div class="col-md-4">
-            <blockquote class="blockquote text-center">
-                <p>"I love the community and the shared enthusiasm for cycling."</p>
-                <footer class="blockquote-footer">Alice Johnson</footer>
-            </blockquote>
-        </div>
-    </div>
-</div>
-
-<!-- Call to Action Section -->
-<div class="container text-center my-5">
-    <h3>Start your journey with Bike Connect today!</h3>
-    <a href="{% url 'events:event_create' %}" class="btn btn-lg btn-success mt-3">Create Your First Event</a>
-</div>
+{% endif %}
 {% endblock %}
