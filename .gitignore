@@ -4,11 +4,11 @@ __pycache__/
 *.pyo
 
 # Ignore virtual environment
-.venv
+.venv/
 
 # Ignore sensitive data
 .env
 
 # Ignore IDE and editor settings
-.idea
-.vscode
+.idea/
+.vscode/
