@@ -1,26 +1,20 @@
 import os
 from pathlib import Path
-import decouple
+from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = decouple.config('DJANGO_SECRET_KEY', default='fallback-secret-key')
-
-DEBUG = True
+# Secret Key and Debug Mode
+SECRET_KEY = config('DJANGO_SECRET_KEY', default='fallback-secret-key')
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
-
 CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
-ALLOWED_HOSTS = []
 
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+
+# Installed Apps
 DJANGO_APPS = [
-    # 'unfold',  # before django.contrib.admin
-    # 'unfold.contrib.filters',  # Optional, for special filters
-    # 'unfold.contrib.forms',  # Optional, for special form elements
-    # 'unfold.contrib.inlines',  # Optional, for special inlines
-    # 'unfold.contrib.import_export',  # Optional, if django-import-export is used
-    # 'unfold.contrib.guardian',  # Optional, if django-guardian is used
-    # 'unfold.contrib.simple_history',  # Optional, if django-simple-history is used
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -31,19 +25,19 @@ DJANGO_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',  # Django REST Framework
-    'django_filters',  # For filtering in REST views
-
+    'django_filters',  # Filtering in REST views
 ]
 
 LOCAL_APPS = [
-    'core',  # Custom core app
-    'users',  # Custom user app
-    'posts',  # Posts app
+    'core',    # Custom core app
+    'users',   # Custom user app
+    'posts',   # Posts app
     'events',  # Events app
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -74,18 +68,19 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bike_connect.wsgi.application'
 
+# Database Configuration
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bike_connect',
-        'USER': 'postgres',
-        'PASSWORD': 'admin',
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
 
-# Password validation
+# Password Validation
 # AUTH_PASSWORD_VALIDATORS = [
 #     {
 #         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -101,18 +96,16 @@ DATABASES = {
 #     },
 # ]
 
+# Localization
 LANGUAGE_CODE = 'en-us'
-USE_L10N = True  # Ensures that localization is applied if needed
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
 
+# Static and Media Files
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [
-    BASE_DIR / 'static'
-]
+STATICFILES_DIRS = [BASE_DIR / 'static']
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
@@ -121,6 +114,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.CustomUser'
 
+# Authentication Redirects
 LOGIN_URL = '/users/login/'
 LOGIN_REDIRECT_URL = '/users/profile/'
 LOGOUT_REDIRECT_URL = 'home'

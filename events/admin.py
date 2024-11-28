@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Participation, Event, Story, Experience
+from .models import Participation, Event
 
 
 @admin.register(Participation)
@@ -18,17 +18,3 @@ class EventAdmin(admin.ModelAdmin):
     search_fields = ['title', 'location', 'organizer__username']
 
 
-@admin.register(Story)
-class StoryAdmin(admin.ModelAdmin):
-    # Admin display for Story model
-    list_display = ['title', 'author', 'created_at']
-    list_filter = ['created_at']
-    search_fields = ['title', 'author__username']
-
-
-@admin.register(Experience)
-class ExperienceAdmin(admin.ModelAdmin):
-    # Admin display for Experience model
-    list_display = ['event', 'participant', 'rating', 'created_at']
-    list_filter = ['rating', 'created_at']
-    search_fields = ['event__title', 'participant__user__username']

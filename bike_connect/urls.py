@@ -1,12 +1,11 @@
-from django.contrib import admin
-from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import path, include
 from django.views.generic import TemplateView
 from rest_framework.routers import DefaultRouter
-from events import views
+
 from events.views import EventViewSet
-from users import views
 from users.views import logout_view
 
 # REST framework router for Event API
@@ -27,8 +26,7 @@ urlpatterns = [
 
     # Logout с пренасочване
     path('logout/', logout_view, name='logout'),
-    path('stories/', include('events.urls', namespace='stories')),
-    path('experiences/', include('events.urls', namespace='experiences')),
+
 ]
 
 # Добавяне на API маршрути
