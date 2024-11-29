@@ -1,0 +1,12 @@
+{% extends "base/base.html" %}
+
+{% block title %}{{ news.title }}{% endblock %}
+
+{% block content %}
+<h1>{{ news.title }}</h1>
+<p>{{ news.content }}</p>
+{% if news.image %}
+<img src="{{ news.image.url }}" alt="{{ news.title }}" style="max-width: 100%;">
+{% endif %}
+<p><small>Published on: {{ news.created_at|date:"F j, Y" }}</small></p>
+{% endblock %}

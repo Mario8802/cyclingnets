@@ -61,7 +61,8 @@ class BikePostListView(LoginRequiredMixin, ListView):
     model = BikePost
     template_name = 'posts/bikepost_list.html'
     context_object_name = 'bike_posts'
-    login_url = 'login'
+    login_url = 'users:login'
+
 
     def get_queryset(self):
         query = self.request.GET.get('q')
@@ -84,14 +85,16 @@ class BikePostDetailView(LoginRequiredMixin, DetailView):
     model = BikePost
     template_name = 'posts/bikepost_detail.html'
     context_object_name = 'bike_post'
-    login_url = 'login'
+    login_url = 'users:login'
+
 
 
 class BuySellView(LoginRequiredMixin, ListView):
     model = BikePost
     template_name = 'posts/buy_sell.html'
     context_object_name = 'bike_posts'
-    login_url = 'login'
+    login_url = 'users:login'
+
 
     def get_queryset(self):
         return BikePost.objects.filter(category__in=['buy', 'sell'])

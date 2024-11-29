@@ -2,117 +2,151 @@
 {% load static %}
 
 {% block content %}
-<!-- Hero Section -->
-<div class="hero-section text-center text-light py-5" style="background: url('{% static "images/passo_dello_stelvio.jpg" %}') no-repeat center center / cover;">
-    <h1 class="display-4">Welcome to Bike Connect</h1>
-    <p class="lead">Connect with cycling enthusiasts, plan events, and stay active!</p>
-    <a href="{% url 'events:event_list' %}" class="btn btn-lg btn-primary mt-3">Explore Events</a>
+<div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="hero-section text-center text-light vh-100" style="background: url('{% static "images/landing_page.jpg" %}') no-repeat center center / cover;">
+                <div class="container d-flex flex-column justify-content-center align-items-center h-100">
+                    <h1 class="display-4">Welcome to Bike Connect</h1>
+                    <p class="lead">Your ultimate hub for cycling enthusiasts.</p>
+                    <a href="#upcoming-events" class="btn btn-lg btn-primary mt-3">Explore Events</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="hero-section text-center text-light vh-100" style="background: url('{% static "images/landing_page2.jpg" %}') no-repeat center center / cover;">
+                <div class="container d-flex flex-column justify-content-center align-items-center h-100">
+                    <h1 class="display-4">Join the Adventure</h1>
+                    <p class="lead">Explore scenic routes and unforgettable rides.</p>
+                    <a href="#upcoming-events" class="btn btn-lg btn-primary mt-3">Discover More</a>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item">
+            <div class="hero-section text-center text-light vh-100" style="background: url('{% static "images/landing_page3.jpg" %}') no-repeat center center / cover;">
+                <div class="container d-flex flex-column justify-content-center align-items-center h-100">
+                    <h1 class="display-4">Stay Connected</h1>
+                    <p class="lead">Meet cyclists, share stories, and grow together.</p>
+                    <a href="#upcoming-events" class="btn btn-lg btn-primary mt-3">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
 </div>
+
+<!-- News Section -->
+{% if news_list %}
+<div id="news" class="container py-5">
+    <h2 class="text-center mb-4">Latest News</h2>
+    <div class="row">
+        {% for news in news_list %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ news.title }}</h5>
+                    <p class="card-text">{{ news.content|truncatewords:20 }}</p>
+                    <a href="{% url 'core:news_detail' news.pk %}" class="btn btn-primary">Read More</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+<div class="container py-5">
+    <p class="text-center">No news available at the moment.</p>
+</div>
+{% endif %}
 
 <!-- Features Section -->
 <div class="container py-5">
-    <div class="row">
-        <div class="col-md-4">
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <i class="fa fa-calendar-alt fa-3x mb-3"></i>
             <h3>Create Events</h3>
             <p>Organize cycling trips and invite participants to join the fun.</p>
         </div>
-        <div class="col-md-4">
-            <h3>Discover New Routes</h3>
-            <p>Explore the best cycling paths with others in your community.</p>
+        <div class="col-md-4 mb-4">
+            <i class="fa fa-route fa-3x mb-3"></i>
+            <h3>Discover Routes</h3>
+            <p>Explore the best cycling paths in your community.</p>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 mb-4">
+            <i class="fa fa-users fa-3x mb-3"></i>
             <h3>Join a Community</h3>
             <p>Connect with like-minded cyclists and build lasting friendships.</p>
         </div>
     </div>
 </div>
-
-<!-- Stories Section -->
-<!-- Stories Section -->
-{% if stories %}
-    <div class="container py-5">
-        <h2 class="text-center mb-4">Latest Stories</h2>
-            <div class="row">
-                {% for story in stories %}
-                <div class="col-md-4">
-                    <h5>{{ story.title }}</h5>
-                        <p>{{ story.content|truncatewords:20 }}</p>
-                </div>
-            {% endfor %}
-        </div>
-</div>
-{% else %}
-    <div class="container py-5">
-        <p class="text-center">No stories available at the moment.</p>
-    </div>
-{% endif %}
-
-<!-- Participations Section -->
-{% if participations %}
-<div class="container py-5">
-    <h2 class="text-center mb-4">Your Participations</h2>
-    <ul class="list-group">
-        {% for participation in participations %}
-        <li class="list-group-item">
-            <strong>{{ participation.event.title }}</strong> - {{ participation.status }}
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-{% else %}
-<div class="container py-5">
-    <p class="text-center">No participations found.</p>
-</div>
-{% endif %}
-
-<!-- Experiences Section -->
-{% if experiences %}
-<div class="container py-5">
-    <h2 class="text-center mb-4">Your Experiences</h2>
-    <ul class="list-group">
-        {% for experience in experiences %}
-        <li class="list-group-item">
-            <strong>{{ experience.feedback }}</strong> - Rating: {{ experience.rating }}
-        </li>
-        {% endfor %}
-    </ul>
-</div>
-{% else %}
-<div class="container py-5">
-    <p class="text-center">No experiences shared yet.</p>
-</div>
-{% endif %}
-
-<!-- Upcoming Events Section -->
-{% if events %}
-<div class="container mt-5">
+<div id="upcoming-events" class="container py-5">
     <h2 class="text-center mb-4">Upcoming Events</h2>
-    <div id="upcomingEventsCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            {% for event in events %}
-            <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                <div class="card h-100 shadow-sm mx-auto" style="max-width: 600px;">
-                    <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'images/login/login_bike.jpg' %}{% endif %}" class="card-img-top" alt="Event Image">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ event.title }}</h5>
-                        <p class="card-text">{{ event.description }}</p>
-                        <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
-                        <p class="card-text"><small class="text-muted">{{ event.date }}</small></p>
-                        <a href="{% url 'event_detail' event.id %}" class="btn btn-primary btn-sm">Details</a>
-                    </div>
+    {% if paginated_events %}
+    <div class="row">
+        {% for event in paginated_events %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'images/events/default_event.jpg' %}{% endif %}" class="card-img-top" alt="Event Image" loading="lazy">
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text">{{ event.description|truncatewords:15 }}</p>
+                    <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
+                    <p class="card-text"><small class="text-muted">{{ event.date }}</small></p>
+                    <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary btn-sm">Details</a>
                 </div>
             </div>
-            {% endfor %}
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#upcomingEventsCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#upcomingEventsCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
+        {% endfor %}
     </div>
+
+    <!-- Pagination Controls -->
+    <div class="d-flex justify-content-center mt-4">
+        <nav>
+            <ul class="pagination">
+                {% if paginated_events.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paginated_events.previous_page_number }}">Previous</a>
+                </li>
+                {% endif %}
+                {% for page_num in paginated_events.paginator.page_range %}
+                <li class="page-item {% if page_num == paginated_events.number %}active{% endif %}">
+                    <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                </li>
+                {% endfor %}
+                {% if paginated_events.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ paginated_events.next_page_number }}">Next</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    {% else %}
+    <p class="text-center">No upcoming events at the moment.</p>
+    {% endif %}
 </div>
-{% endif %}
+
+
+{#<!-- Back to Top Button -->#}
+{#<a href="#hero" class="btn btn-secondary back-to-top" style="position: fixed; bottom: 20px; right: 20px; display: none;">Back to Top</a>#}
+{##}
+{#<script>#}
+{#    const backToTopButton = document.querySelector('.back-to-top');#}
+{#    window.addEventListener('scroll', () => {#}
+{#        if (window.scrollY > 300) {#}
+{#            backToTopButton.style.display = 'block';#}
+{#        } else {#}
+{#            backToTopButton.style.display = 'none';#}
+{#        }#}
+{#    });#}
+{#</script>#}
+{##}
 {% endblock %}
