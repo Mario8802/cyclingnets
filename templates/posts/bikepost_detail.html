@@ -1,26 +1,26 @@
-{% extends "base/base.html" %}
+{% extends "base/base.html" %} <!-- Extends the base template for consistent layout -->
 
-{% block title %}{{ bike_post.title }}{% endblock %}
+{% block title %}{{ bike_post.title }}{% endblock %} <!-- Sets the page title dynamically based on the bike post title -->
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-5"> <!-- Main container with top margin -->
     <div class="row">
-        <div class="col-lg-8 mx-auto">
-            <div class="card shadow-lg">
+        <div class="col-lg-8 mx-auto"> <!-- Centers the card within the page -->
+            <div class="card shadow-lg"> <!-- Card with shadow for better styling -->
+                <!-- Display the image if it exists -->
                 {% if bike_post.image %}
-                <img src="{{ bike_post.image.url }}" class="card-img-top" alt="{{ bike_post.title }}">
+                <img src="{{ bike_post.image.url }}" class="card-img-top" alt="{{ bike_post.title }}"> <!-- Responsive image -->
                 {% endif %}
-                <div class="card-body">
-                    <h2 class="card-title">{{ bike_post.title }}</h2>
-                    <p class="card-text">{{ bike_post.description }}</p>
-                    <p class="text-success fw-bold">Price: {{ bike_post.price }}</p>
-                    <p class="text-muted">Posted by {{ bike_post.posted_by.username }} on {{ bike_post.created_at|date:"M d, Y" }}</p>
-                    <a href="{% url 'posts:bikepost_list' %}" class="btn btn-secondary">Back to Posts</a>
 
+                <!-- Card Body -->
+                <div class="card-body">
+                    <h2 class="card-title">{{ bike_post.title }}</h2> <!-- Bike post title -->
+                    <p class="card-text">{{ bike_post.description }}</p> <!-- Bike post description -->
+                    <p class="text-success fw-bold">Price: {{ bike_post.price }}</p> <!-- Price of the item -->
+                    <p class="text-muted">Posted by {{ bike_post.posted_by.username }} on {{ bike_post.created_at|date:"M d, Y" }}</p> <!-- Poster and date info -->
+                    <a href="{% url 'posts:bikepost_list' %}" class="btn btn-secondary">Back to Posts</a> <!-- Back button -->
                 </div>
             </div>
-        <a href="{% url 'posts:bikepost_list' %}" class="btn btn-secondary">Back to Posts</a>
-    
         </div>
     </div>
 </div>

@@ -1,19 +1,27 @@
-{% extends "base/base.html" %}
+{% extends "base/base.html" %} <!-- Extends the base template for consistent structure -->
 
-{% block title %}News{% endblock %}
+{% block title %}News{% endblock %} <!-- Sets the page title as "News" -->
 
 {% block content %}
+<!-- Page Heading -->
 <h1>Latest News</h1>
+
+<!-- List of News -->
 <ul>
-    {% for news in news_list %}
+    {% for news in news_list %} <!-- Loop through the list of news items -->
     <li>
+        <!-- Link to the detailed view of the news -->
         <a href="{% url 'news_detail' news.pk %}">{{ news.title }}</a>
+
+        <!-- Truncated content preview for each news item -->
         <p>{{ news.content|truncatewords:20 }}</p>
+
+        <!-- Display the news image if it exists -->
         {% if news.image %}
-        <img src="{{ news.image.url }}" alt="{{ news.title }}" style="max-width: 200px;">
+        <img src="{{ news.image.url }}" alt="{{ news.title }}" style="max-width: 200px;"> <!-- Responsive image styling -->
         {% endif %}
     </li>
-    {% empty %}
+    {% empty %} <!-- Fallback if no news items exist -->
     <p>No news available at the moment.</p>
     {% endfor %}
 </ul>

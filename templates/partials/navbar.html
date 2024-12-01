@@ -7,15 +7,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}
-                    active{% endif %}" href="{% url 'home' %}">Home
-                    </a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.url_name == 'events:event_list' %}active{% endif %}" href="{% url 'events:event_list' %}">Events</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'events:bikepost_list' %}active{% endif %}" href="{% url 'posts:bikepost_list' %}">Buy & Sell</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'posts:bikepost_list' %}active{% endif %}" href="{% url 'posts:bikepost_list' %}">Buy & Sell</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
@@ -25,6 +23,10 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'users:logout' %}">Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'events:event_create' %}" class="btn nav-create-event">Create Event</a>
+
                 </li>
                 {% else %}
                 <li class="nav-item">

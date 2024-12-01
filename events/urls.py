@@ -4,16 +4,38 @@ from .views import (
     EventDetailView, join_or_leave_event,
 )
 
+# Namespace for the events app URLs
 app_name = 'events'
 
+# Define URL patterns for the events app
 urlpatterns = [
+    # List view for events
     path('list/', EventListView.as_view(), name='event_list'),
+    # URL: /events/list/
+    # Displays a list of all events.
+
+    # Create view for events
     path('create/', EventCreateView.as_view(), name='event_create'),
+    # URL: /events/create/
+    # Allows users to create a new event.
+
+    # Update view for editing an event
     path('<int:pk>/edit/', EventUpdateView.as_view(), name='event_edit'),
+    # URL: /events/<event_id>/edit/
+    # Allows the organizer to edit an existing event, identified by its primary key (pk).
+
+    # Delete view for removing an event
     path('<int:pk>/delete/', EventDeleteView.as_view(), name='event_delete'),
+    # URL: /events/<event_id>/delete/
+    # Allows the organizer to delete an event, identified by its primary key (pk).
+
+    # Detail view for a specific event
     path('<int:pk>/detail/', EventDetailView.as_view(), name='event_detail'),
+    # URL: /events/<event_id>/detail/
+    # Displays detailed information about a specific event, identified by its primary key (pk).
+
+    # Action for joining or leaving an event
     path('<int:event_id>/join/', join_or_leave_event, name='join_or_leave_event'),
-
-
-    ]
-
+    # URL: /events/<event_id>/join/
+    # Allows a user to join or leave an event based on their current participation status.
+]

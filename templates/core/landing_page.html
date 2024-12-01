@@ -1,18 +1,22 @@
-{% extends "base/base.html" %}
-{% load static %}
+{% extends "base/base.html" %} <!-- Extend the base layout for consistent styling -->
+{% load static %} <!-- Load the static template tag to use static files -->
 
 {% block content %}
+<!-- Hero Carousel Section -->
 <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
     <div class="carousel-inner">
+        <!-- First Slide -->
         <div class="carousel-item active">
             <div class="hero-section text-center text-light vh-100" style="background: url('{% static "images/landing_page.jpg" %}') no-repeat center center / cover;">
+                <!-- Container for centered content on the slide -->
                 <div class="container d-flex flex-column justify-content-center align-items-center h-100">
-                    <h1 class="display-4">Welcome to Bike Connect</h1>
-                    <p class="lead">Your ultimate hub for cycling enthusiasts.</p>
-                    <a href="#upcoming-events" class="btn btn-lg btn-primary mt-3">Explore Events</a>
+                    <h1 class="display-4">Welcome to Bike Connect</h1> <!-- Main heading -->
+                    <p class="lead">Your ultimate hub for cycling enthusiasts.</p> <!-- Subheading -->
+                    <a href="#upcoming-events" class="btn btn-lg btn-primary mt-3">Explore Events</a> <!-- Call-to-action button -->
                 </div>
             </div>
         </div>
+        <!-- Second Slide -->
         <div class="carousel-item">
             <div class="hero-section text-center text-light vh-100" style="background: url('{% static "images/landing_page2.jpg" %}') no-repeat center center / cover;">
                 <div class="container d-flex flex-column justify-content-center align-items-center h-100">
@@ -22,6 +26,7 @@
                 </div>
             </div>
         </div>
+        <!-- Third Slide -->
         <div class="carousel-item">
             <div class="hero-section text-center text-light vh-100" style="background: url('{% static "images/landing_page3.jpg" %}') no-repeat center center / cover;">
                 <div class="container d-flex flex-column justify-content-center align-items-center h-100">
@@ -32,6 +37,7 @@
             </div>
         </div>
     </div>
+    <!-- Navigation buttons for the carousel -->
     <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
         <span class="visually-hidden">Previous</span>
@@ -43,25 +49,25 @@
 </div>
 
 <!-- News Section -->
-{% if news_list %}
+{% if news_list %} <!-- Check if there are news items -->
 <div id="news" class="container py-5">
     <h2 class="text-center mb-4">Latest News</h2>
     <div class="row">
-        {% for news in news_list %}
+        {% for news in news_list %} <!-- Loop through the list of news -->
         <div class="col-md-4 mb-4">
             <div class="card">
-                <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}">
+                <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}"> <!-- News image -->
                 <div class="card-body">
-                    <h5 class="card-title">{{ news.title }}</h5>
-                    <p class="card-text">{{ news.content|truncatewords:20 }}</p>
-                    <a href="{% url 'core:news_detail' news.pk %}" class="btn btn-primary">Read More</a>
+                    <h5 class="card-title">{{ news.title }}</h5> <!-- News title -->
+                    <p class="card-text">{{ news.content|truncatewords:20 }}</p> <!-- Truncated news content -->
+                    <a href="{% url 'core:news_detail' news.pk %}" class="btn btn-primary">Read More</a> <!-- Link to full news -->
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
-{% else %}
+{% else %} <!-- If no news is available -->
 <div class="container py-5">
     <p class="text-center">No news available at the moment.</p>
 </div>
@@ -71,36 +77,38 @@
 <div class="container py-5">
     <div class="row text-center">
         <div class="col-md-4 mb-4">
-            <i class="fa fa-calendar-alt fa-3x mb-3"></i>
+            <i class="fa fa-calendar-alt fa-3x mb-3"></i> <!-- Icon for "Create Events" -->
             <h3>Create Events</h3>
             <p>Organize cycling trips and invite participants to join the fun.</p>
         </div>
         <div class="col-md-4 mb-4">
-            <i class="fa fa-route fa-3x mb-3"></i>
+            <i class="fa fa-route fa-3x mb-3"></i> <!-- Icon for "Discover Routes" -->
             <h3>Discover Routes</h3>
             <p>Explore the best cycling paths in your community.</p>
         </div>
         <div class="col-md-4 mb-4">
-            <i class="fa fa-users fa-3x mb-3"></i>
+            <i class="fa fa-users fa-3x mb-3"></i> <!-- Icon for "Join a Community" -->
             <h3>Join a Community</h3>
             <p>Connect with like-minded cyclists and build lasting friendships.</p>
         </div>
     </div>
 </div>
+
+<!-- Upcoming Events Section -->
 <div id="upcoming-events" class="container py-5">
     <h2 class="text-center mb-4">Upcoming Events</h2>
-    {% if paginated_events %}
+    {% if paginated_events %} <!-- Check if there are paginated events -->
     <div class="row">
-        {% for event in paginated_events %}
+        {% for event in paginated_events %} <!-- Loop through events -->
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
                 <img src="{% if event.image %}{{ event.image.url }}{% else %}{% static 'images/events/default_event.jpg' %}{% endif %}" class="card-img-top" alt="Event Image" loading="lazy">
                 <div class="card-body">
-                    <h5 class="card-title">{{ event.title }}</h5>
-                    <p class="card-text">{{ event.description|truncatewords:15 }}</p>
-                    <p class="card-text"><strong>Location:</strong> {{ event.location }}</p>
-                    <p class="card-text"><small class="text-muted">{{ event.date }}</small></p>
-                    <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary btn-sm">Details</a>
+                    <h5 class="card-title">{{ event.title }}</h5> <!-- Event title -->
+                    <p class="card-text">{{ event.description|truncatewords:15 }}</p> <!-- Event description -->
+                    <p class="card-text"><strong>Location:</strong> {{ event.location }}</p> <!-- Event location -->
+                    <p class="card-text"><small class="text-muted">{{ event.date }}</small></p> <!-- Event date -->
+                    <a href="{% url 'events:event_detail' event.id %}" class="btn btn-primary btn-sm">Details</a> <!-- Link to event details -->
                 </div>
             </div>
         </div>
@@ -111,17 +119,17 @@
     <div class="d-flex justify-content-center mt-4">
         <nav>
             <ul class="pagination">
-                {% if paginated_events.has_previous %}
+                {% if paginated_events.has_previous %} <!-- Show "Previous" link if available -->
                 <li class="page-item">
                     <a class="page-link" href="?page={{ paginated_events.previous_page_number }}">Previous</a>
                 </li>
                 {% endif %}
-                {% for page_num in paginated_events.paginator.page_range %}
+                {% for page_num in paginated_events.paginator.page_range %} <!-- Display page numbers -->
                 <li class="page-item {% if page_num == paginated_events.number %}active{% endif %}">
                     <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
                 </li>
                 {% endfor %}
-                {% if paginated_events.has_next %}
+                {% if paginated_events.has_next %} <!-- Show "Next" link if available -->
                 <li class="page-item">
                     <a class="page-link" href="?page={{ paginated_events.next_page_number }}">Next</a>
                 </li>
@@ -129,24 +137,8 @@
             </ul>
         </nav>
     </div>
-    {% else %}
+    {% else %} <!-- If no upcoming events are available -->
     <p class="text-center">No upcoming events at the moment.</p>
     {% endif %}
 </div>
-
-
-{#<!-- Back to Top Button -->#}
-{#<a href="#hero" class="btn btn-secondary back-to-top" style="position: fixed; bottom: 20px; right: 20px; display: none;">Back to Top</a>#}
-{##}
-{#<script>#}
-{#    const backToTopButton = document.querySelector('.back-to-top');#}
-{#    window.addEventListener('scroll', () => {#}
-{#        if (window.scrollY > 300) {#}
-{#            backToTopButton.style.display = 'block';#}
-{#        } else {#}
-{#            backToTopButton.style.display = 'none';#}
-{#        }#}
-{#    });#}
-{#</script>#}
-{##}
 {% endblock %}

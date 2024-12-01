@@ -10,6 +10,9 @@ from .forms import BikePostForm
 
 @login_required
 def create_post(request):
+    """
+    Handles the creation of a new BikePost.
+    """
     if request.method == 'POST':
         form = BikePostForm(request.POST, request.FILES)
         if form.is_valid():
@@ -28,6 +31,9 @@ def create_post(request):
 
 @login_required
 def edit_post(request, pk):
+    """
+    Handles the editing of an existing BikePost.
+    """
     bike_post = get_object_or_404(BikePost, pk=pk)
     if request.user != bike_post.posted_by:
         messages.error(request, "You are not allowed to edit this post.")
@@ -38,7 +44,6 @@ def edit_post(request, pk):
         if form.is_valid():
             form.save()
             messages.success(request, "Your post has been updated.")
-
             return redirect('posts:bikepost_detail', pk=bike_post.pk)
     else:
         form = BikePostForm(instance=bike_post)
@@ -48,6 +53,9 @@ def edit_post(request, pk):
 
 @login_required
 def delete_post(request, pk):
+    """
+    Handles the deletion of a BikePost.
+    """
     bike_post = get_object_or_404(BikePost, pk=pk)
     if request.user == bike_post.posted_by:
         bike_post.delete()
@@ -58,11 +66,13 @@ def delete_post(request, pk):
 
 
 class BikePostListView(LoginRequiredMixin, ListView):
+    """
+    Displays a paginated list of BikePosts.
+    """
     model = BikePost
     template_name = 'posts/bikepost_list.html'
     context_object_name = 'bike_posts'
     login_url = 'users:login'
-
 
     def get_queryset(self):
         query = self.request.GET.get('q')
@@ -82,21 +92,23 @@ class BikePostListView(LoginRequiredMixin, ListView):
 
 
 class BikePostDetailView(LoginRequiredMixin, DetailView):
+    """
+    Displays the details of a specific BikePost.
+    """
     model = BikePost
     template_name = 'posts/bikepost_detail.html'
     context_object_name = 'bike_post'
     login_url = 'users:login'
 
 
-
 class BuySellView(LoginRequiredMixin, ListView):
+    """
+    Displays a filtered list of 'Buy' and 'Sell' BikePosts.
+    """
     model = BikePost
     template_name = 'posts/buy_sell.html'
     context_object_name = 'bike_posts'
     login_url = 'users:login'
 
-
     def get_queryset(self):
         return BikePost.objects.filter(category__in=['buy', 'sell'])
-
-

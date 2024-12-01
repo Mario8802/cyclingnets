@@ -1,35 +1,50 @@
-{% extends "base/base.html" %}
-{% load static %}
-{% load form_tags %}
+{% extends "base/base.html" %} <!-- Extends the base template for consistent layout -->
+{% load static %} <!-- Loads the static files for styling -->
+{% load form_tags %} <!-- Loads custom template tags for form rendering -->
 
 {% block content %}
-<div class="container my-5">
-    <h1 class="text-center text-primary">Edit Event</h1>
-    <p class="text-center">Update your event details below:</p>
-    <div class="card mx-auto shadow p-4" style="max-width: 600px;">
-        <form method="post" enctype="multipart/form-data">
-            {% csrf_token %}
+<div class="container my-5"> <!-- Main container with vertical spacing -->
+    <!-- Page Title and Subtitle -->
+    <h1 class="text-center text-primary">Edit Event</h1> <!-- Centered heading -->
+    <p class="text-center">Update your event details below:</p> <!-- Centered instruction text -->
+
+    <!-- Form Card -->
+    <div class="card mx-auto shadow p-4" style="max-width: 600px;"> <!-- Card with shadow and centered alignment -->
+        <form method="post" enctype="multipart/form-data"> <!-- Form for updating event details -->
+            {% csrf_token %} <!-- CSRF token for security -->
+
+            <!-- Title Field -->
             <div class="mb-3">
-                <label for="id_title">Title</label>
-                {{ form.title|add_class:"form-control" }}
+                <label for="id_title">Title</label> <!-- Field label -->
+                {{ form.title|add_class:"form-control" }} <!-- Django form field with Bootstrap styling -->
             </div>
+
+            <!-- Description Field -->
             <div class="mb-3">
                 <label for="id_description">Description</label>
-                {{ form.description|add_class:"form-control" }}
+                {{ form.description|add_class:"form-control" }} <!-- Django form field with Bootstrap styling -->
             </div>
+
+            <!-- Date Field -->
             <div class="mb-3">
                 <label for="id_date">Date</label>
-                {{ form.date|add_class:"form-control" }}
+                {{ form.date|add_class:"form-control" }} <!-- Django form field with Bootstrap styling -->
             </div>
+
+            <!-- Location Field -->
             <div class="mb-3">
                 <label for="id_location">Location</label>
-                {{ form.location|add_class:"form-control" }}
+                {{ form.location|add_class:"form-control" }} <!-- Django form field with Bootstrap styling -->
             </div>
+
+            <!-- Image Field -->
             <div class="mb-3">
                 <label for="id_image">Event Image</label>
-                {{ form.image|add_class:"form-control" }}
+                {{ form.image|add_class:"form-control" }} <!-- Django form field with Bootstrap styling -->
             </div>
-            <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-primary w-100">Save Changes</button> <!-- Full-width submit button -->
         </form>
     </div>
 </div>

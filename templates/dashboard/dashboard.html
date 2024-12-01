@@ -1,27 +1,33 @@
-<div class="container mt-5">
-  <h2 class="mb-4">User Dashboard</h2>
-  <div class="row">
-    <div class="col-md-4">
-      <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Total Events Joined</h5>
-          <p class="card-text">{{ user.events.count }}</p>
+<div class="container mt-5"> <!-- Main container for the dashboard with top margin -->
+  <h2 class="mb-4">User Dashboard</h2> <!-- Section heading -->
+
+  <div class="row"> <!-- Row for organizing the dashboard cards -->
+    <!-- Card 1: Total Events Joined -->
+    <div class="col-md-4"> <!-- Each card occupies 1/3 of the row on medium and larger screens -->
+      <div class="card"> <!-- Bootstrap card component -->
+        <div class="card-body"> <!-- Card body content -->
+          <h5 class="card-title">Total Events Joined</h5> <!-- Card title -->
+          <p class="card-text">{{ user.events.count }}</p> <!-- Total number of events the user has joined -->
         </div>
       </div>
     </div>
+
+    <!-- Card 2: Upcoming Events -->
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Upcoming Events</h5>
-          <p class="card-text">{{ user.organized_events.filter(date__gte=today).count }}</p>
+          <h5 class="card-title">Upcoming Events</h5> <!-- Card title -->
+          <p class="card-text">{{ user.organized_events.filter(date__gte=today).count }}</p> <!-- Count of events organized by the user in the future -->
         </div>
       </div>
     </div>
+
+    <!-- Card 3: My Organized Events -->
     <div class="col-md-4">
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">My Organized Events</h5>
-          <p class="card-text">{{ user.organized_events.count }}</p>
+          <h5 class="card-title">My Organized Events</h5> <!-- Card title -->
+          <p class="card-text">{{ user.organized_events.count }}</p> <!-- Total count of events organized by the user -->
         </div>
       </div>
     </div>
