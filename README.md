@@ -43,5 +43,5 @@ Follow these steps to get a local copy of the project up and running.
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/Mario8802/bike_connect.git
+   git clone https://github.com/Mario8802/cycling_connect.git
    cd bike_connect
