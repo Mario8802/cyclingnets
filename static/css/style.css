@@ -19,12 +19,15 @@
     --baroque-blue: #2B547E; /* Deep blue for gradients */
     --baroque-shadow: rgba(0, 0, 0, 0.5); /* Semi-transparent shadow color */
     --default-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Default shadow for multiple elements */
+
+    /* Define baroque-pattern with a fallback to none if no image is needed */
+    /*--baroque-pattern: url('/static/images/pattern.png'); !* Replace with your desired pattern or remove if unnecessary *!*/
 }
 
 /* Global settings for the entire page */
 body {
     font-family: 'Cormorant Garamond', serif; /* Elegant serif font */
-    background: var(--baroque-pattern), var(--baroque-ivory); /* Patterned and ivory background */
+    /*background: var(--baroque-pattern, var(--baroque-ivory)); !* Patterned and ivory background *!*/
     color: var(--baroque-shadow); /* Neutral text color */
     margin: 0; /* Remove default margin */
     overflow-x: hidden; /* Prevent horizontal scrollbars */
@@ -141,4 +144,34 @@ footer a:hover {
 
 h1, h2 {
     text-shadow: 0px 0px 10px var(--baroque-gold), 0px 0px 20px var(--baroque-gold); /* Glowing gold effect */
+}
+
+/* Back to Top Button Styles */
+#back-to-top {
+    position: fixed;
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px; /* Distance from the right */
+    background: var(--baroque-gold); /* Golden background to match the site */
+    color: var(--baroque-ivory); /* Ivory text color for contrast */
+    border: none; /* Remove default border */
+    border-radius: 50%; /* Circle shape */
+    width: 50px; /* Fixed size */
+    height: 50px; /* Fixed size */
+    box-shadow: var(--default-shadow); /* Default shadow for depth */
+    cursor: pointer; /* Pointer cursor on hover */
+    opacity: 0; /* Hidden by default */
+    visibility: hidden; /* Hidden visibility by default */
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s ease; /* Smooth transition */
+    z-index: 1000; /* Ensure it's always above other elements */
+}
+
+#back-to-top:hover {
+    transform: scale(1.1); /* Slight zoom-in on hover */
+    background: var(--baroque-burgundy); /* Change background to burgundy */
+    color: var(--baroque-gold); /* Switch icon color to gold */
+}
+
+#back-to-top.visible {
+    opacity: 1; /* Make button visible */
+    visibility: visible; /* Enable visibility */
 }

@@ -1,0 +1,78 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block hero %}
+<header class="hero-section text-center">
+    <h1 class="display-5 fw-bold">Explore New Events</h1>
+    <p>Join cycling enthusiasts and participate in exciting adventures.</p>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Upcoming Events</h2>
+
+    <!-- Search Form -->
+    <form method="get" action="{% url 'events:event_list' %}" class="d-flex mb-4 justify-content-center">
+        <input type="text" name="search" class="form-control me-2" placeholder="Search events..." value="{{ request.GET.search }}">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+    </form>
+
+    <!-- Event Cards -->
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for event in events %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                <!-- Event Image -->
+                {% if event.image %}
+                <img src="{{ event.image.url }}" alt="{{ event.title }}" class="card-img-top img-fluid" style="object-fit: cover; height: 150px;">
+                {% else %}
+                <img src="{% static 'images/home/hero.jpg' %}" alt="Default Image" class="card-img-top img-fluid" style="object-fit: cover; height: 150px;">
+                {% endif %}
+
+                <div class="card-body">
+                    <h5 class="card-title">{{ event.title }}</h5>
+                    <p class="card-text text-truncate" style="max-height: 45px; overflow: hidden;">{{ event.description }}</p>
+                    <p class="card-text"><strong>📍 Location:</strong> {{ event.location }}</p>
+                    <p class="card-text"><small class="text-muted">{{ event.date|date:"F d, Y" }}</small></p>
+                    <div class="d-flex justify-content-between">
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'events:event_edit' event.id %}" class="btn btn-warning btn-sm">Edit</a>
+                            {% if user in event.participants.all %}
+                            <form method="post" action="{% url 'events:leave_event' event.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-secondary btn-sm join-leave-btn">Leave</button>
+                            </form>
+                            {% else %}
+                            <form method="post" action="{% url 'events:join_event' event.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-sm join-leave-btn">Join</button>
+                            </form>
+                            {% endif %}
+                            <a href="{% url 'events:event_delete' event.id %}" class="btn btn-danger btn-sm">Delete</a>
+                        {% endif %}
+                        <a href="{% url 'events:event_detail' event.id %}" class="btn btn-info btn-sm">Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- No Events Available -->
+    {% if not events %}
+    <div class="text-center mt-4">
+        <p class="text-muted">No events found. Be the first to create an event!</p>
+        {% if user.is_authenticated %}
+        <a href="{% url 'events:event_create' %}" class="btn btn-primary">Create Event</a>
+        {% else %}
+        <a href="{% url 'users:login' %}?next={% url 'events:event_create' %}" class="btn btn-primary">Login to create an event</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'events/js/join_leave.js' %}"></script>
+{% endblock %}

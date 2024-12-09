@@ -57,8 +57,7 @@
     </main>
 
     <!-- Back to Top Button -->
-    <button id="back-to-top">
-        <!-- Font Awesome icon for the button -->
+    <button id="back-to-top" class="back-to-top">
         <i class="fas fa-chevron-up"></i>
     </button>
 
@@ -71,29 +70,21 @@
     <!-- Custom JavaScript for interactivity -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            // Get the "Back to Top" button element
             const backToTopButton = document.getElementById("back-to-top");
 
-            /**
-             * Show or hide the "Back to Top" button based on the scroll position.
-             * - If scrolled more than 200px, the button appears.
-             * - If scrolled back to the top, the button disappears.
-             */
+            // Show or hide the button based on the scroll position
             window.addEventListener("scroll", function () {
-                if (window.scrollY > 200) {
-                    backToTopButton.style.display = "block"; // Show the button
+                if (window.scrollY > 50) {
+                    backToTopButton.classList.add("visible"); // Show the button
                 } else {
-                    backToTopButton.style.display = "none"; // Hide the button
+                    backToTopButton.classList.remove("visible"); // Hide the button
                 }
             });
 
-            /**
-             * Smoothly scroll to the top of the page when the button is clicked.
-             * - Prevents default behavior to ensure smooth scrolling.
-             */
+            // Smooth scroll to top on button click
             backToTopButton.addEventListener("click", function () {
                 window.scrollTo({
-                    top: 0, // Scroll to the top of the page
+                    top: 0,
                     behavior: "smooth", // Smooth scrolling animation
                 });
             });

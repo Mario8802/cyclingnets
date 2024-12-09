@@ -1,0 +1,17 @@
+{% extends "base/base.html" %}
+
+{% block title %}Confirm Delete{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <h2 class="text-danger">Are you sure you want to delete "{{ object.title }}"?</h2>
+    <p>This action cannot be undone.</p>
+
+    <!-- Delete Confirmation Form -->
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger btn-lg">Yes, Delete</button>
+        <a href="{{ cancel_url }}" class="btn btn-secondary btn-lg">Cancel</a>
+    </form>
+</div>
+{% endblock %}

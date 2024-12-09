@@ -1,0 +1,196 @@
+@keyframes subtle-fade {
+    /* Animation for a smooth fade-in effect with slight scaling */
+    0% {
+        opacity: 0; /* Starts fully transparent */
+        transform: scale(0.95); /* Slightly smaller size */
+    }
+    100% {
+        opacity: 1; /* Ends fully visible */
+        transform: scale(1); /* Restores original size */
+    }
+}
+
+:root {
+    /* Define primary color variables */
+    --baroque-gold: #D4AF37; /* Golden color for accents */
+    --baroque-burgundy: #800020; /* Deep burgundy for main sections */
+    --baroque-ivory: #F8F1E4; /* Soft ivory for background and text */
+    --baroque-green: #567D46; /* Rich green for gradients */
+    --baroque-blue: #2B547E; /* Deep blue for gradients */
+    --baroque-shadow: rgba(0, 0, 0, 0.5); /* Semi-transparent shadow color */
+    --default-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3); /* Default shadow for multiple elements */
+
+    /* Define baroque-pattern with a fallback to none if no image is needed */
+    /*--baroque-pattern: url('/static/images/pattern.png'); !* Replace with your desired pattern or remove if unnecessary *!*/
+}
+
+/* Global settings for the entire page */
+body {
+    font-family: 'Cormorant Garamond', serif; /* Elegant serif font */
+    /*background: var(--baroque-pattern, var(--baroque-ivory)); !* Patterned and ivory background *!*/
+    color: var(--baroque-shadow); /* Neutral text color */
+    margin: 0; /* Remove default margin */
+    overflow-x: hidden; /* Prevent horizontal scrollbars */
+}
+
+/* Navbar styling */
+.navbar {
+    background: var(--baroque-burgundy); /* Rich burgundy background */
+    border-bottom: 2px solid var(--baroque-gold); /* Gold border for separation */
+    padding: 15px 30px; /* Space around navbar content */
+    box-shadow: var(--default-shadow); /* Default shadow */
+    position: fixed; /* Fixed position at the top */
+    width: 100%; /* Full-width navbar */
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+.navbar a {
+    color: var(--baroque-gold); /* Golden text color for links */
+    font-weight: bold; /* Make links bold */
+    text-transform: uppercase; /* Convert text to uppercase */
+    transition: all 0.3s ease; /* Smooth hover transition */
+}
+
+.navbar a:hover {
+    color: var(--baroque-ivory); /* Change to ivory on hover */
+    text-shadow: 0px 0px 5px var(--baroque-gold); /* Add glow effect */
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative; /* Allows overlapping child elements */
+    background: linear-gradient(120deg, var(--baroque-green), var(--baroque-blue)); /* Gradient background */
+    color: var(--baroque-ivory); /* Ivory text color */
+    text-align: center; /* Center align content */
+    padding: 150px 20px; /* Vertical and horizontal padding */
+    clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%); /* Create an angled bottom edge */
+    border: 5px solid var(--baroque-gold); /* Golden border around section */
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.7); /* Deep shadow for emphasis */
+    background-blend-mode: multiply; /* Enhances the gradient effect */
+}
+
+.hero-section h1 {
+    font-size: 4rem; /* Large headline size */
+    font-weight: 700; /* Bold font weight */
+    letter-spacing: 2px; /* Add spacing between letters */
+    color: var(--baroque-ivory); /* Ivory text */
+    text-shadow: 2px 2px 10px var(--baroque-shadow); /* Subtle shadow for contrast */
+}
+
+.hero-section p {
+    font-size: 1.5rem; /* Slightly smaller paragraph size */
+    font-weight: 300; /* Lighter font weight */
+    color: var(--baroque-ivory); /* Ivory text */
+    text-shadow: 1px 1px 5px var(--baroque-shadow); /* Add contrast shadow */
+}
+
+/* Buttons */
+.btn-red {
+    background-color: #d9534f; /* Red background */
+    color: #fff; /* White text */
+    border-radius: 50px; /* Rounded corners */
+    padding: 12px 30px; /* Button padding */
+    font-size: 1.2rem; /* Medium font size */
+    font-weight: bold; /* Bold text */
+    border: 2px solid #d43f3a; /* Darker red border */
+    box-shadow: var(--default-shadow); /* Default shadow */
+    transition: all 0.3s ease-in-out; /* Smooth hover effect */
+    text-transform: uppercase; /* Uppercase text */
+}
+
+.btn-red:hover {
+    background-color: #c9302c; /* Darker red on hover */
+    border-color: #ac2925; /* Adjust border color */
+    transform: translateY(-3px); /* Slight upward movement */
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.5); /* Enhanced shadow */
+}
+
+/* Footer */
+footer {
+    background: var(--baroque-burgundy); /* Burgundy background */
+    color: var(--baroque-ivory); /* Ivory text */
+    padding: 20px 0; /* Vertical padding */
+    text-align: center; /* Center-align text */
+    font-size: 1rem; /* Standard text size */
+    border-top: 2px solid var(--baroque-gold); /* Gold border at the top */
+}
+
+footer a {
+    color: var(--baroque-gold); /* Golden links */
+    text-decoration: none; /* Remove underline */
+}
+
+footer a:hover {
+    color: var(--baroque-ivory); /* Ivory color on hover */
+    text-shadow: 0px 0px 5px var(--baroque-gold); /* Add glow effect */
+}
+
+/* Cards */
+.card {
+    background: rgba(255, 255, 255, 0.5); /* Semi-transparent white background */
+    backdrop-filter: blur(15px); /* Blur effect for glassmorphism */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Subtle border */
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: var(--default-shadow); /* Default shadow */
+    padding: 20px; /* Internal padding */
+    transition: all 0.3s ease-in-out; /* Smooth transition for hover */
+    animation: subtle-fade 0.5s ease-in-out; /* Subtle fade-in effect */
+}
+
+.card:hover {
+    transform: translateY(-5px); /* Slight upward movement on hover */
+    box-shadow: 0px 15px 30px rgba(0, 0, 0, 0.4); /* Enhanced shadow */
+}
+
+h1, h2 {
+    text-shadow: 0px 0px 10px var(--baroque-gold), 0px 0px 20px var(--baroque-gold); /* Glowing gold effect */
+}
+
+/* Back to Top Button Styles */
+#back-to-top {
+    position: fixed;
+    bottom: 20px; /* Distance from the bottom */
+    right: 20px; /* Distance from the right */
+    background: var(--baroque-gold); /* Golden background to match the site */
+    color: var(--baroque-ivory); /* Ivory text color for contrast */
+    border: none; /* Remove default border */
+    border-radius: 50%; /* Circle shape */
+    width: 50px; /* Fixed size */
+    height: 50px; /* Fixed size */
+    box-shadow: var(--default-shadow); /* Default shadow for depth */
+    cursor: pointer; /* Pointer cursor on hover */
+    opacity: 0; /* Hidden by default */
+    visibility: hidden; /* Hidden visibility by default */
+    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.3s ease; /* Smooth transition */
+    z-index: 1000; /* Ensure it's always above other elements */
+}
+
+#back-to-top:hover {
+    transform: scale(1.1); /* Slight zoom-in on hover */
+    background: var(--baroque-burgundy); /* Change background to burgundy */
+    color: var(--baroque-gold); /* Switch icon color to gold */
+}
+
+#back-to-top.visible {
+    opacity: 1; /* Make button visible */
+    visibility: visible; /* Enable visibility */
+}
+.card {
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.card-img-top {
+    height: 200px;
+    object-fit: cover;
+}
+
+.pagination .active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+}

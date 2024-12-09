@@ -1,0 +1,78 @@
+{% extends "base/base.html" %}
+
+{% block title %}News{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Latest News</h1>
+
+    <!-- Search and Filter Form -->
+    <form method="get" class="d-flex justify-content-center mb-4">
+        <!-- Search Input -->
+        <input type="text" name="q" class="form-control w-25 me-2" placeholder="Search news..." value="{{ request.GET.q }}">
+
+        <!-- Year Filter Dropdown -->
+        <select name="year" class="form-select w-25 me-2">
+            <option value="">Select Year</option>
+            {% for year in years %}
+                <option value="{{ year }}" {% if request.GET.year == year|stringformat:"s" %}selected{% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Month Filter Dropdown -->
+        <select name="month" class="form-select w-25 me-2">
+            <option value="">Select Month</option>
+            {% for month in months %}
+                <option value="{{ month }}" {% if request.GET.month == month|stringformat:"s" %}selected{% endif %}>{{ month }}</option>
+            {% endfor %}
+        </select>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Filter</button>
+    </form>
+
+    <!-- News List -->
+    <div class="row">
+        {% for news in news_list %}
+            <div class="col-md-4">
+                <div class="card mb-4 h-100 shadow-sm">
+                    <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ news.title }}</h5>
+                        <p class="card-text">{{ news.content|truncatechars:100 }}</p>
+                        <a href="{{ news.get_absolute_url }}" class="btn btn-primary btn-sm">Read More</a>
+                    </div>
+                    <div class="card-footer text-muted small">
+                        Published: {{ news.created_at|date:"F j, Y" }}
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <p class="text-center">No news found.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+        <nav class="d-flex justify-content-center">
+            <ul class="pagination">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                    </li>
+                {% endif %}
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if num == page_obj.number %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endif %}
+</div>
+{% endblock %}

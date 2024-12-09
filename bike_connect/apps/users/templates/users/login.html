@@ -1,0 +1,86 @@
+{% extends "base/base.html" %}
+{% load form_tags %}
+{% load static %}
+
+{% block title %}Login - Bike Connect{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <img src="{% static 'images/login-icon.png' %}" alt="Login Icon" class="mb-3" style="width: 400px; height: 300px;">
+        <h1 class="display-4 text-gradient">🔑 Login to Bike Connect</h1>
+        <p class="text-muted">Access your profile, join events, and connect with cyclists.</p>
+    </div>
+
+    <!-- Login Form Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-5">
+            <div class="card shadow-lg border-0 p-5 rounded-4">
+                <h3 class="text-center mb-4 text-primary">Login</h3>
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <!-- Username or Email -->
+                    <div class="input-group mb-4">
+                        <span class="input-group-text bg-light"><i class="fas fa-user"></i></span>
+                        {{ form.username|add_class:"form-control" }}
+                        <label for="id_username" class="visually-hidden">Username</label>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="input-group mb-4">
+                        <span class="input-group-text bg-light"><i class="fas fa-lock"></i></span>
+                        {{ form.password|add_class:"form-control" }}
+                        <label for="id_password" class="visually-hidden">Password</label>
+                    </div>
+
+                    <!-- Hidden Input for 'next' -->
+                    {% if request.GET.next %}
+                        <input type="hidden" name="next" value="{{ request.GET.next }}">
+                    {% endif %}
+
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                    </button>
+                </form>
+                <p class="text-center mt-3">
+                    Don't have an account?
+                    <a href="{% url 'users:register' %}" class="text-decoration-none fw-bold">Register here</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-gradient {
+        background: linear-gradient(to right, #4CAF50, #2196F3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #007bff, #4CAF50);
+        border: none;
+        transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(to right, #4CAF50, #007bff);
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .input-group-text {
+        border-radius: 0.375rem 0 0 0.375rem;
+    }
+
+    .form-control {
+        border-radius: 0 0.375rem 0.375rem 0;
+    }
+</style>
+{% endblock %}

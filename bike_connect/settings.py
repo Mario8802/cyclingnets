@@ -1,76 +1,95 @@
 import os
 from pathlib import Path
+import logging
+import boto3
 from decouple import config
 
-# Define the base directory of the project
+# Base Directory: Refers to the root directory of the project
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Secret Key and Debug Mode
-# SECRET_KEY is fetched from environment variables for security; a fallback value is provided for development.
 SECRET_KEY = config('DJANGO_SECRET_KEY', default='fallback-secret-key')
-
-# DEBUG mode should be disabled in production for security reasons.
 DEBUG = config('DEBUG', default=True, cast=bool)
 
-# CSRF configuration: Trusted origins to prevent CSRF attacks.
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:8000', 'http://localhost:8000']
-CSRF_FAILURE_VIEW = 'django.views.csrf.csrf_failure'
-
-# Allowed hosts configuration, fetched from environment variables.
-# This prevents host header attacks by restricting the domains the app can serve.
+# Allowed Hosts
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
 
-# Installed Apps
-# DJANGO_APPS contains core Django apps required for basic functionality.
-DJANGO_APPS = [
-    'django.contrib.admin',          # Admin panel
-    'django.contrib.auth',           # Authentication system
-    'django.contrib.contenttypes',   # Framework for content types
-    'django.contrib.sessions',       # Session management
-    'django.contrib.messages',       # Messaging framework
-    'django.contrib.staticfiles',    # Static file management
+# CSRF Protection
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000'
 ]
 
-# THIRD_PARTY_APPS includes third-party libraries or frameworks used in the project.
-THIRD_PARTY_APPS = [
-    'rest_framework',  # Django REST Framework for building APIs
-    'django_filters',  # Enables filtering for querysets in APIs
-]
+# Installed Applications
+INSTALLED_APPS = [
+    # Default Django apps
+    'jazzmin',
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
 
-# LOCAL_APPS includes custom applications created for this project.
-LOCAL_APPS = [
-    'core',    # Custom core app for shared functionality
-    'users',   # Custom user management app
-    'posts',   # App for managing posts related to buying/selling bikes
-    'events',  # App for managing cycling events
-]
+    # Third-party apps
+    'rest_framework',
+    'django_filters',
+    'storages',
+    'corsheaders',
 
-# Combine all apps into a single list.
-INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
+    # Custom apps
+    'bike_connect.apps.core',
+    'bike_connect.apps.users',
+    'bike_connect.apps.posts',
+    'bike_connect.apps.events',
+]
 
 # Middleware
-# Middleware processes requests/responses at various stages of the request lifecycle.
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',              # Enhances security (e.g., HSTS)
-    'django.contrib.sessions.middleware.SessionMiddleware',        # Manages user sessions
-    'django.middleware.common.CommonMiddleware',                  # General request/response adjustments
-    'django.middleware.csrf.CsrfViewMiddleware',                  # Prevents CSRF attacks
-    'django.contrib.auth.middleware.AuthenticationMiddleware',    # Manages user authentication
-    'django.contrib.messages.middleware.MessageMiddleware',       # Manages temporary messages
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',     # Prevents clickjacking attacks
+    'corsheaders.middleware.CorsMiddleware',  # Should be above CommonMiddleware
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# URL configuration module
+# CORS Settings
+CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=True, cast=bool)
+
+# Optional: Allow specific origins (if not allowing all)
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+]
+
+CORS_ALLOW_CREDENTIALS = True
+
+# Allow specific headers if needed
+CORS_ALLOW_HEADERS = [
+    'content-type',
+    'authorization',
+    'x-csrf-token',
+    'accept',
+    'accept-language',
+    'origin',
+    'user-agent',
+    'x-requested-with',
+]
+
+# URL Configuration
 ROOT_URLCONF = 'bike_connect.urls'
 
-# Templates configuration
+# Template Configuration
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',  # Use Django's template engine
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],                # Custom templates directory
-        'APP_DIRS': True,                                             # Look for templates in app directories
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [BASE_DIR / 'templates'],
+        'APP_DIRS': True,
         'OPTIONS': {
-            'context_processors': [                                  # Functions that inject data into templates
+            'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -80,63 +99,126 @@ TEMPLATES = [
     },
 ]
 
-# WSGI configuration for deployment
+# WSGI Application
 WSGI_APPLICATION = 'bike_connect.wsgi.application'
 
 # Database Configuration
-# PostgreSQL is used as the database engine, with credentials fetched from environment variables.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME'),        # Database name
-        'USER': config('DB_USER'),        # Database user
-        'PASSWORD': config('DB_PASSWORD'),# Database password
-        'HOST': config('DB_HOST', default='localhost'),  # Database host
-        'PORT': config('DB_PORT', default='5432'),       # Database port
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST', default='localhost'),
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
 
-# Password validation rules for enhanced security
-# Uncomment and customize validators as needed.
+# Password Validation
 # AUTH_PASSWORD_VALIDATORS = [
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-#     },
-#     {
-#         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-#     },
+#     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+#     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+#     {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+#     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 # ]
 
 # Localization
-# Define the default language and timezone for the project.
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
-USE_I18N = True   # Enable internationalization
-USE_L10N = True   # Format dates, numbers, etc., in the local format
-USE_TZ = True     # Enable timezone-aware datetimes
+USE_I18N = True
+USE_L10N = True
+USE_TZ = True
 
-# Static and Media Files
-# Static files (CSS, JavaScript, images) and media file configuration
-STATIC_URL = '/static/'                           # URL for static files
-STATICFILES_DIRS = [BASE_DIR / 'static']          # Directories for additional static files
-STATIC_ROOT = BASE_DIR / 'staticfiles'            # Directory for collected static files
-MEDIA_URL = '/media/'                             # URL for media files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')      # Directory for uploaded media files
+# Static and Media Files Configurations
 
-# Default primary key field type for models
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+STATICFILES_DIRS = [BASE_DIR / 'static']
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
-# Custom user model
+# Media Configuration (Added for completeness)
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Custom User Model
 AUTH_USER_MODEL = 'users.CustomUser'
 
 # Authentication Redirects
-# Define the redirects for login and logout.
 LOGIN_URL = 'users:login'
 LOGIN_REDIRECT_URL = 'users:profile'
 LOGOUT_REDIRECT_URL = 'home'
+
+# Default Primary Key Field Type
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default='eu-north-1')
+AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.{AWS_S3_REGION_NAME}.amazonaws.com'
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+    'ACL': 'public-read',
+}
+
+# URLs for static and media files stored in S3
+STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/static/'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/media/'
+
+# Storage backends for static and media files
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3StaticStorage'
+DEFAULT_FILE_STORAGE = 'bike_connect.storages.MediaStorage'
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': config('DJANGO_LOG_LEVEL', default='INFO'),
+        },
+        'boto3': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'botocore': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+        },
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
+# Initialize Boto3 Logging
+boto3.set_stream_logger('boto3.resources', logging.DEBUG)
+
+# Removed Debugging Print Statements for Security
+# print("AWS_STORAGE_BUCKET_NAME:", AWS_STORAGE_BUCKET_NAME)
+# print("AWS_S3_REGION_NAME:", AWS_S3_REGION_NAME)
+# print("AWS_S3_CUSTOM_DOMAIN:", AWS_S3_CUSTOM_DOMAIN)
+# print("STATIC_URL:", STATIC_URL)
+# print("MEDIA_URL:", MEDIA_URL)
+
+# print(os.getenv('AWS_ACCESS_KEY_ID'))
+# print(os.getenv('AWS_SECRET_ACCESS_KEY'))
+# print(os.getenv('AWS_STORAGE_BUCKET_NAME'))
+# print(os.getenv('DEFAULT_FILE_STORAGE'))

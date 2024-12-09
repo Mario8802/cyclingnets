@@ -1,0 +1,164 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% load form_tags %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <img src="{% static 'images/edit-icon.png' %}" alt="Edit Icon" class="mb-3" style="width: 80px; height: 80px;">
+        <h1 class="display-4 text-gradient">✏️ Edit Your Post</h1>
+        <p class="text-muted">Update the details of your post and save the changes.</p>
+    </div>
+
+    <!-- Form Section -->
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 p-5 rounded-4">
+                <!-- Form Header -->
+                <div class="text-center mb-4">
+                    <h3 class="text-primary">Post Details</h3>
+                    <p class="text-muted small">Make sure the information is accurate before saving.</p>
+                </div>
+
+                <!-- Form -->
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <!-- Title -->
+                    <div class="input-group mb-4">
+                        <span class="input-group-text bg-light"><i class="fas fa-heading"></i></span>
+                        {{ form.title|add_class:"form-control" }}
+                        <label for="id_title" class="visually-hidden">Title</label>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="input-group mb-4">
+                        <span class="input-group-text bg-light"><i class="fas fa-pencil-alt"></i></span>
+                        {{ form.description|add_class:"form-control" }}
+                        <label for="id_description" class="visually-hidden">Description</label>
+                    </div>
+
+                    <!-- Category -->
+                    <div class="mb-4">
+                        <label for="id_category" class="form-label">Category</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fas fa-list"></i></span>
+                            {{ form.category|add_class:"form-select" }}
+                        </div>
+                    </div>
+
+                    <!-- Condition -->
+                    <div class="mb-4">
+                        <label for="id_condition" class="form-label">Condition</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light"><i class="fas fa-wrench"></i></span>
+                            {{ form.condition|add_class:"form-select" }}
+                        </div>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="input-group mb-4">
+                        <span class="input-group-text bg-light"><i class="fas fa-dollar-sign"></i></span>
+                        {{ form.price|add_class:"form-control" }}
+                        <label for="id_price" class="visually-hidden">Price (in USD)</label>
+                    </div>
+
+                    <!-- Location -->
+                    <div class="input-group mb-4">
+                        <span class="input-group-text bg-light"><i class="fas fa-map-marker-alt"></i></span>
+                        {{ form.location|add_class:"form-control" }}
+                        <label for="id_location" class="visually-hidden">Location</label>
+                    </div>
+
+                    <!-- Image -->
+                    <div class="mb-4">
+                        <label for="edit-image-upload" class="form-label">Update Image</label>
+                        <input type="file" id="edit-image-upload" class="form-control" name="image">
+                        <div id="edit-image-preview" class="mt-3">
+                            {% if form.instance.image %}
+                                <!-- Display current image if it exists -->
+                                <img src="{{ form.instance.image.url }}" alt="Current Image" class="img-fluid rounded shadow-sm" style="max-width: 300px;">
+                            {% else %}
+                                <p class="text-muted small">No image uploaded.</p>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <script>
+                        document.getElementById('edit-image-upload').addEventListener('change', function (event) {
+                            const preview = document.getElementById('edit-image-preview');
+                            const file = event.target.files[0];
+
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    preview.innerHTML = `<img src="${e.target.result}" alt="New Image Preview" class="img-fluid rounded shadow-sm" style="max-width: 300px;">`;
+                                };
+                                reader.readAsDataURL(file);
+                            } else {
+                                preview.innerHTML = '<p class="text-muted small">No image uploaded.</p>';
+                            }
+                        });
+                    </script>
+
+
+                    <!-- Buttons -->
+                    <div class="d-flex justify-content-between">
+                        <button type="submit" class="btn btn-primary btn-lg">
+                            <i class="fas fa-save me-2"></i> Save Changes
+                        </button>
+                        <a href="{% url 'posts:bikepost_list' %}" class="btn btn-secondary btn-lg">
+                            <i class="fas fa-times me-2"></i> Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .text-gradient {
+        background: linear-gradient(to right, #4CAF50, #2196F3);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+
+    .btn-primary {
+        background: linear-gradient(to right, #007bff, #4CAF50);
+        border: none;
+        transition: background 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(to right, #4CAF50, #007bff);
+    }
+
+    .btn-secondary {
+        background: #6c757d;
+        border: none;
+        color: white;
+        transition: background 0.3s ease;
+    }
+
+    .btn-secondary:hover {
+        background: #5a6268;
+    }
+
+    .card {
+        border-radius: 15px;
+    }
+
+    .input-group-text {
+        border-radius: 0.375rem 0 0 0.375rem;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 0 0.375rem 0.375rem 0;
+    }
+</style>
+{% endblock %}
