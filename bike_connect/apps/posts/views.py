@@ -7,7 +7,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.urls import reverse_lazy, reverse
 from .models import BikePost
-from .forms import BikePostForm
+from .forms import BikePostForm, CommentForm
 
 
 class BikePostCreateView(LoginRequiredMixin, CreateView):
@@ -113,13 +113,33 @@ class BikePostListView(LoginRequiredMixin, ListView):
 
 class BikePostDetailView(LoginRequiredMixin, DetailView):
     """
-    Displays the details of a specific BikePost.
+    Displays the details of a specific BikePost along with its comments.
     """
     model = BikePost
     template_name = 'posts/bikepost_detail.html'
     context_object_name = 'bike_post'
     login_url = 'users:login'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.comments.all()  # Retrieve all comments related to this post
+        context['comment_form'] = CommentForm()  # Add the comment form to the context
+        return context
+
+    def post(self, request, *args, **kwargs):
+        # Handle the form submission to add a comment
+        bike_post = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.bike_post = bike_post
+            comment.posted_by = request.user
+            comment.save()
+            messages.success(request, "Your comment has been added.")
+            return redirect('posts:bikepost_detail', pk=bike_post.pk)
+        else:
+            messages.error(request, "There was an error with your comment.")
+            return redirect('posts:bikepost_detail', pk=bike_post.pk)
 
 class BuySellView(LoginRequiredMixin, ListView):
     """
@@ -132,3 +152,9 @@ class BuySellView(LoginRequiredMixin, ListView):
 
     def get_queryset(self):
         return BikePost.objects.filter(category__in=['buy', 'sell'])
+
+
+from django.shortcuts import render, get_object_or_404
+from .models import BikePost
+
+

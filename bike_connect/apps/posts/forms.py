@@ -1,5 +1,5 @@
 from django import forms
-from .models import BikePost
+from .models import BikePost, Comment
 
 
 class BikePostForm(forms.ModelForm):
@@ -28,3 +28,11 @@ class BikePostForm(forms.ModelForm):
             'location',     # Location where the bike is available
             'image',        # Optional image of the bike
         ]
+
+class CommentForm(forms.ModelForm):
+    """
+    Form for creating and submitting a comment for a BikePost.
+    """
+    class Meta:
+        model = Comment
+        fields = ['text']  # Only the text of the comment

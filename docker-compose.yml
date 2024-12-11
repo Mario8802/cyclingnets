@@ -1,0 +1,36 @@
+
+services:
+  postgres_container:
+    image: postgres:15
+    container_name: postgres_container
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admincycling5432
+      POSTGRES_DB: cyclingnets
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      retries: 5
+    networks:
+      - bike_connect_network
+
+  django_app:
+    build:
+      context: .
+    container_name: django_app
+    depends_on:
+      - postgres_container
+    environment:
+      - DATABASE_URL=postgres://postgres:admincycling5432@postgres_container:5432/cyclingnets  # Коригирана парола
+    ports:
+      - "8000:8000"
+    networks:
+      - bike_connect_network
+    command: >
+      sh -c "python manage.py migrate &&
+             gunicorn bike_connect.wsgi:application --bind 0.0.0.0:8000"
+
+networks:
+  bike_connect_network:

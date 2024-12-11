@@ -9,15 +9,29 @@
         <div class="col-md-8">
             <div class="card shadow-lg">
                 <div class="card-body text-center">
+                    <!-- Profile Picture -->
+                    <div class="mb-4">
+                        <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="rounded-circle img-thumbnail" style="width: 150px; height: 150px;">
+                    </div>
+
+                    <!-- Welcome Message -->
                     <h2 class="card-title">Welcome, {{ user.username }}!</h2>
+                    <p class="text-muted">
+                        Role: <span class="badge bg-info text-dark">{{ user.get_role_display }}</span>
+                    </p>
+
+                    <!-- Summary Section -->
                     <p class="text-muted">Here’s a summary of your activity:</p>
+
+                    <!-- Events Section -->
                     <div class="mt-4">
                         <h5>Your Events</h5>
                         {% if user.event_participants.exists %}
                             <ul class="list-group">
                                 {% for event in user.event_participants.all %}
-                                    <li class="list-group-item">
-                                        {{ event.title }} - <small>{{ event.date }}</small>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ event.title }}</span>
+                                        <small>{{ event.date }}</small>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -25,13 +39,16 @@
                             <p>You are not participating in any events yet.</p>
                         {% endif %}
                     </div>
+
+                    <!-- Posts Section -->
                     <div class="mt-4">
                         <h5>Your Posts</h5>
                         {% if user.posts.exists %}
                             <ul class="list-group">
                                 {% for post in user.posts.all %}
-                                    <li class="list-group-item">
-                                        {{ post.title }} - <small>{{ post.created_at }}</small>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <span>{{ post.title }}</span>
+                                        <small>{{ post.created_at|date:"d M Y" }}</small>
                                     </li>
                                 {% endfor %}
                             </ul>
@@ -39,6 +56,8 @@
                             <p>You haven’t created any posts yet.</p>
                         {% endif %}
                     </div>
+
+                    <!-- Explore Button -->
                     <a href="{% url 'events:event_list' %}" class="btn btn-primary mt-4">Explore Events</a>
                 </div>
             </div>

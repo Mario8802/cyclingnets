@@ -175,3 +175,37 @@ h1, h2 {
     opacity: 1; /* Make button visible */
     visibility: visible; /* Enable visibility */
 }
+/* General Updates */
+body {
+    font-family: 'Poppins', sans-serif; /* Google Font for Modern Look */
+    line-height: 1.6;
+    background-color: #f9f9f9;
+}
+
+/* Hero Section */
+.hero-section h1, .hero-section p {
+    animation-duration: 1s;
+}
+
+.hero-section .btn {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    border-radius: 50px;
+}
+
+/* Benefits Section */
+#cycling-benefits img {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#cycling-benefits img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Quotes Section */
+#cycling-quotes blockquote {
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    border-left: 5px solid #007bff;
+    font-size: 1.1rem;
+}

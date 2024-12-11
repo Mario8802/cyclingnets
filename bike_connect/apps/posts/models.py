@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth import get_user_model
 
@@ -87,8 +88,6 @@ class BikePost(models.Model):
         help_text="Optional image for the post."
     )
 
-
-
     # Reference to the user who posted this
     posted_by = models.ForeignKey(
         User,                         # Links to the user model (foreign key relationship)
@@ -100,6 +99,20 @@ class BikePost(models.Model):
         auto_now_add=True             # Automatically sets the field to the current timestamp on creation
     )
 
+    def clean(self):
+        """
+        Custom validation logic for the BikePost model.
+        """
+        if self.price is not None and self.price < 0:
+            raise ValidationError({'price': 'The price cannot be negative. Please enter a valid value.'})
+
+    def save(self, *args, **kwargs):
+        """
+        Override save to ensure that clean is called before saving the model.
+        """
+        self.full_clean()  # Validate the model (this will call clean())
+        super().save(*args, **kwargs)  # Call the original save method
+
     # -------------------------------------------
     # String Representation
     # -------------------------------------------
@@ -110,3 +123,40 @@ class BikePost(models.Model):
             str: The title and category of the bike post.
         """
         return f"{self.title} ({self.category})"
+
+
+class Comment(models.Model):
+    """
+    Represents a comment on a BikePost.
+    Each comment is associated with a specific BikePost.
+    """
+
+    # Text of the comment
+    text = models.TextField()
+
+    # The bike post to which the comment belongs
+    bike_post = models.ForeignKey(
+        BikePost,                   # The post this comment is related to
+        on_delete=models.CASCADE,   # Delete comment if the associated post is deleted
+        related_name='comments'     # Related name to access comments from a post
+    )
+
+    # The user who posted the comment
+    posted_by = models.ForeignKey(
+        User,                        # The user who made the comment
+        on_delete=models.CASCADE     # Delete the comment if the user is deleted
+    )
+
+    # Timestamp for when the comment was made
+    created_at = models.DateTimeField(
+        auto_now_add=True            # Automatically set the timestamp when the comment is created
+    )
+
+    def __str__(self):
+        """
+        String representation of the Comment object.
+        Returns:
+            str: The first 50 characters of the comment's text and the user who posted it.
+        """
+        return f"{self.text[:50]}... by {self.posted_by.username}"
+

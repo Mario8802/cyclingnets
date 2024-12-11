@@ -1,22 +1,21 @@
 {% extends "base/base.html" %}
-{% load static %}
 {% load form_tags %}
+{% load static %}
 
-{% block title %}Login - Bike Connect{% endblock %}
+{% block title %}Edit Profile - Bike Connect{% endblock %}
 
 {% block content %}
-<div class="container my-5">
-    <!-- Hero Section -->
-    <div class="text-center mb-5">
-        <img src="{% static 'images/login-icon.png' %}" alt="Login Icon" class="mb-3" style="width: 400px; height: 300px;">
-        <h1 class="display-4 text-gradient">🔑 Login to Bike Connect</h1>
-        <p class="text-muted">Access your profile, join events, and connect with cyclists.</p>
+<div class="container mt-5">
+    <!-- Page Header -->
+    <div class="text-center mb-4">
+        <h1 class="display-5 text-gradient">✏️ Edit Your Profile</h1>
+        <p class="text-muted">Update your personal information and profile picture.</p>
     </div>
 
     <!-- Display Messages -->
     {% if messages %}
         <div class="row justify-content-center">
-            <div class="col-lg-5">
+            <div class="col-lg-6">
                 {% for message in messages %}
                     <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
                         {{ message }}
@@ -27,47 +26,49 @@
         </div>
     {% endif %}
 
-    <!-- Login Form Section -->
+    <!-- Edit Profile Form -->
     <div class="row justify-content-center">
-        <div class="col-lg-5">
-            <div class="card shadow-lg border-0 p-5 rounded-4">
-                <h3 class="text-center mb-4 text-primary">Login</h3>
-                <form method="POST" novalidate>
+        <div class="col-lg-6">
+            <div class="card shadow-lg border-0 p-4 rounded-4">
+                <h3 class="text-center text-primary mb-4">Edit Profile</h3>
+                <form method="POST" enctype="multipart/form-data" novalidate>
                     {% csrf_token %}
 
-                    <!-- Username or Email -->
+                    <!-- Username -->
                     <div class="mb-3">
                         <label for="id_username" class="form-label">Username</label>
                         {{ form.username|add_class:"form-control" }}
                     </div>
 
-                    <!-- Password -->
+                    <!-- Email -->
                     <div class="mb-3">
-                        <label for="id_password" class="form-label">Password</label>
-                        {{ form.password|add_class:"form-control" }}
+                        <label for="id_email" class="form-label">Email</label>
+                        {{ form.email|add_class:"form-control" }}
                     </div>
 
-                    <!-- Hidden Input for 'next' -->
-                    {% if next %}
-                        <input type="hidden" name="next" value="{{ next }}">
-                    {% endif %}
+                    <!-- Profile Picture -->
+                    <div class="mb-3">
+                        <label for="id_profile_picture" class="form-label">Profile Picture</label>
+                        {{ form.profile_picture|add_class:"form-control" }}
+                        {% if user.profile_picture %}
+                            <div class="mt-2">
+                                <img src="{{ user.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail rounded-circle" style="width: 100px; height: 100px;">
+                                <small class="text-muted d-block">Current profile picture</small>
+                            </div>
+                        {% endif %}
+                    </div>
 
                     <!-- Submit Button -->
                     <button type="submit" class="btn btn-primary btn-lg w-100">
-                        <i class="fas fa-sign-in-alt me-2"></i> Login
+                        <i class="fas fa-save me-2"></i> Save Changes
                     </button>
                 </form>
-
-                <!-- Additional Links -->
-                <p class="text-center mt-3">
-                    Don't have an account?
-                    <a href="{% url 'users:register' %}" class="text-decoration-none fw-bold">Register here</a>.
-                </p>
             </div>
         </div>
     </div>
 </div>
 
+<!-- Custom Styles -->
 <style>
     .text-gradient {
         background: linear-gradient(to right, #4CAF50, #2196F3);
@@ -91,6 +92,10 @@
 
     .form-control {
         border-radius: 0.375rem;
+    }
+
+    .img-thumbnail {
+        border: 2px solid #4CAF50;
     }
 </style>
 {% endblock %}
