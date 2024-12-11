@@ -12,3 +12,4 @@ __pycache__/
 # Ignore IDE and editor settings
 .idea/
 .vscode/
+"venv/" 
