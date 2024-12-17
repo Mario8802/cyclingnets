@@ -1,4 +1,4 @@
-# 🚴‍♂️ www.cyclingnets.com
+# 🚴‍♂️ www.cyclingnets.com IMPORTANT: The page will be online again this weekend !
 
 **CyclingNets** is a modern web application for cycling enthusiasts! The app allows users to create, join, and manage cycling events, discover new cycling routes, and connect with like-minded individuals.
 
