@@ -36,7 +36,11 @@
         {% for news in news_list %}
             <div class="col-md-4">
                 <div class="card mb-4 h-100 shadow-sm">
-                    <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}">
+                    {% if news.image %}
+                        <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}">
+                    {% else %}
+                        <img src="{% static 'images/default_image.jpg' %}" class="card-img-top" alt="Default Image">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ news.title }}</h5>
                         <p class="card-text">{{ news.content|truncatechars:100 }}</p>
