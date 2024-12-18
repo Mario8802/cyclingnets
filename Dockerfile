@@ -1,17 +1,25 @@
-# Use the official Python image
-FROM python:3.11
+# Използвай официалния Python образ
+FROM python:3.11-slim
 
-# Set the working directory inside the container
+# Инсталиране на системни зависимости, необходими за Python пакети
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libpq-dev \
+    gcc \
+    netcat-openbsd && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Задаване на работна директория в контейнера
 WORKDIR /app
 
-# Copy the requirements file
+# Копиране на файла с изисквания
 COPY requirements.txt /app/
 
-# Install dependencies
+# Инсталиране на Python зависимости
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy all project files
+# Копиране на всички проектни файлове
 COPY . /app/
 
-# Default command to run the application with Gunicorn (instead of Django's development server)
+# Командата по подразбиране за стартиране на приложението с Gunicorn
 CMD ["gunicorn", "--bind", "0.0.0.0:8000", "bike_connect.wsgi:application"]

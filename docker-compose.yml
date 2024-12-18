@@ -1,11 +1,10 @@
-
 services:
   postgres_container:
     image: postgres:15
     container_name: postgres_container
     environment:
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admincycling5432
+      POSTGRES_PASSWORD: Admincycling5432
       POSTGRES_DB: cyclingnets
     ports:
       - "5432:5432"
@@ -23,14 +22,19 @@ services:
     depends_on:
       - postgres_container
     environment:
-      - DATABASE_URL=postgres://postgres:admincycling5432@postgres_container:5432/cyclingnets  # Коригирана парола
+      - DATABASE_URL=postgres://postgres:Admincycling5432@postgres_container:5432/cyclingnets?sslmode=disable
     ports:
       - "8000:8000"
     networks:
       - bike_connect_network
     command: >
-      sh -c "python manage.py migrate &&
+      sh -c "until nc -z postgres_container 5432; do
+             echo 'Waiting for PostgreSQL...';
+             sleep 2;
+             done;
+             python manage.py migrate &&
              gunicorn bike_connect.wsgi:application --bind 0.0.0.0:8000"
 
 networks:
   bike_connect_network:
+    driver: bridge
