@@ -52,7 +52,7 @@
         <h2 class="text-center mb-4">The Benefits of Cycling</h2>
         <div class="row align-items-center mb-5">
             <div class="col-md-6">
-                <img src="{% static 'images/benefit1.jpg' %}" class="img-fluid rounded" alt="Health benefits">
+                <img src="{% static 'images/landing_page.jpg' %}" class="img-fluid rounded" alt="Health benefits">
             </div>
             <div class="col-md-6">
                 <h3>Boosts Your Health</h3>
@@ -61,7 +61,7 @@
         </div>
         <div class="row align-items-center">
             <div class="col-md-6 order-md-2">
-                <img src="{% static 'images/benefit2.jpg' %}" class="img-fluid rounded" alt="Social cycling">
+                <img src="{% static 'images/landing_page3.jpg' %}" class="img-fluid rounded" alt="Social cycling">
             </div>
             <div class="col-md-6 order-md-1">
                 <h3>Builds Connections</h3>
@@ -70,7 +70,7 @@
         </div>
         <div class="row align-items-center">
             <div class="col-md-6">
-                <img src="{% static 'images/benefit3.jpg' %}" class="img-fluid rounded" alt="Relaxation and joy">
+                <img src="{% static 'images/landing_page2.jpg' %}" class="img-fluid rounded" alt="Relaxation and joy">
             </div>
             <div class="col-md-6">
                 <h3>Rediscover Joy</h3>
@@ -109,7 +109,11 @@
             {% for news in news_list %}
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
+                    {% if news.image %}
                     <img src="{{ news.image.url }}" class="card-img-top" alt="{{ news.title }}">
+                    {% else %}
+                        <img src="{% static 'images/landing_page.jpg' %}" class="card-img-top" alt="No Image Available">
+                    {% endif %}
                     <div class="card-body">
                         <h5 class="card-title">{{ news.title }}</h5>
                         <p class="card-text">{{ news.content|truncatewords:20 }}</p>
