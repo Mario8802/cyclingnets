@@ -36,7 +36,7 @@ Follow these steps to get a local copy of the project up and running.
 ### Prerequisites
 
 1. Install Python 3.10+
-2. Install PostgreSQL
+2. Install PostgreSQL 
 3. Install `pipenv` or `virtualenv` (for managing virtual environments).
 
 ### Installation
