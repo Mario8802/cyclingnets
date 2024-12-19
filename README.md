@@ -1,4 +1,6 @@
-# 🚴‍♂️ www.cyclingnets.com
+# 🚴‍♂️ www.cyclingnets.com 
+Current Status
+Our domain cyclingnets.com is temporarily unavailable as we finalize the necessary steps to ensure a secure and fully operational environment for all users. This includes validating our domain with ICANN and updating DNS records across global servers.
 
 **CyclingNets** is a modern web application for cycling enthusiasts! The app allows users to create, join, and manage cycling events, discover new cycling routes, and connect with like-minded individuals.
 
