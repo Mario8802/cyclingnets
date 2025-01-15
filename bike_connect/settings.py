@@ -6,7 +6,7 @@ from decouple import config
 
 # Base Directory: Refers to the root directory of the project 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
+ 
 # Secret Key and Debug Mode
 SECRET_KEY = config('DJANGO_SECRET_KEY', default='fallback-secret-key')
 DEBUG = config('DEBUG', default=False, cast=bool)
