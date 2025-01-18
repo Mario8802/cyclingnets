@@ -8,7 +8,7 @@
         opacity: 1; /* Ends fully visible */
         transform: scale(1); /* Restores original size */
     }
-}
+} 
 
 :root {
     /* Define primary color variables */
