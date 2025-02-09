@@ -209,3 +209,60 @@ body {
     border-left: 5px solid #007bff;
     font-size: 1.1rem;
 }
+
+
+/* Responsive Design */
+
+/* Smartphones (up to 576px) */
+@media (max-width: 576px) {
+    .hero-section {
+        padding: 100px 10px;
+        font-size: 1rem;
+    }
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    .hero-section p {
+        font-size: 1.2rem;
+    }
+    .navbar {
+        padding: 10px 20px;
+    }
+    .card {
+        padding: 15px;
+    }
+    .btn-red {
+        font-size: 1rem;
+        padding: 10px 20px;
+    }
+}
+
+/* Tablets (up to 768px) */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 120px 15px;
+    }
+    .hero-section h1 {
+        font-size: 3rem;
+    }
+    .navbar a {
+        font-size: 0.9rem;
+    }
+    .btn-red {
+        font-size: 1.1rem;
+        padding: 12px 25px;
+    }
+}
+
+/* Medium devices (up to 1024px) */
+@media (max-width: 1024px) {
+    .hero-section {
+        padding: 130px 20px;
+    }
+    .hero-section h1 {
+        font-size: 3.5rem;
+    }
+    .card {
+        padding: 18px;
+    }
+}
