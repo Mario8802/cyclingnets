@@ -1,4 +1,4 @@
-# 🚴‍♂️ [www.cyclingnets.com](https://www.cyclingnets.com)  
+# 🚴‍♂️ [www.cyclingnets.com](https://www.cyclingnets.com)  since 01.04.2025 is not hosted on AWS
 
 **CyclingNets** is a modern web application designed for cycling enthusiasts! With this platform, users can create, join, and manage cycling events, explore new cycling routes, and connect with like-minded individuals in a vibrant online community.
 
