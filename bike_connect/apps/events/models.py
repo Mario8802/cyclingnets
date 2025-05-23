@@ -41,7 +41,7 @@ class Event(models.Model):
 
     def save_image_to_s3(self, uploaded_file):
         """
-        Качва изображение в S3 и връща публичния URL.
+        Uploading in S3 and return public URL.
         """
         try:
             file_path = default_storage.save(f'events/{uploaded_file.name}', uploaded_file)
