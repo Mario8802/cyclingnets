@@ -1,53 +1,79 @@
-# 🚴‍♂️ [www.cyclingnets.com](https://www.cyclingnets.com)  since 01.04.2025 is not hosted on AWS
+# 🚴‍♂️ CyclingNets
 
-**CyclingNets** is a modern web application designed for cycling enthusiasts! With this platform, users can create, join, and manage cycling events, explore new cycling routes, and connect with like-minded individuals in a vibrant online community.
-
----
-
-## 🌟 Features
-
-- **Create Events**: Organize cycling trips and invite participants to join.
-- **Discover Events**: Browse upcoming cycling events and RSVP seamlessly.
-- **Community Connection**: Build your network by connecting with other cyclists.
-- **Event Search**: Use search and filters to find events by title, location, or date.
-- **Interactive UI**: Beautifully designed interface powered by **Bootstrap 5** for an engaging user experience.
-- **REST API Integration**: Access event data with a fully functional API for external integrations.
+> [www.cyclingnets.com](https://www.cyclingnets.com) – *Note: as of April 1st, 2025, this project is no longer hosted on AWS due to cost optimization. The code remains available for local development and portfolio presentation.*
 
 ---
 
-## 🛠️ Technologies Used
+## 🌐 About the Project
 
-### **Frontend**
+**CyclingNets** is a modern full-stack web application built for cycling enthusiasts.  
+It enables users to create, join, and manage cycling events, discover new routes, and connect with fellow cyclists in a dynamic online community.
+
+---
+
+## 🌟 Key Features
+
+- 📅 **Event Creation** – Organize and publish your own cycling events
+- 🔍 **Event Discovery** – Explore events by location, time, and keywords
+- 🧭 **Route Sharing** – View and add new routes from users
+- 🧑‍🤝‍🧑 **Community** – Connect with other cyclists and join their events
+- 🎨 **Responsive UI** – Built with Bootstrap 5 for a modern interface
+- 🔗 **RESTful API** – Backend exposes a clean API for integration and future mobile support
+
+---
+
+## 🛠️ Tech Stack
+
+### 🎨 Frontend
 - HTML5  
 - CSS3  
-- Bootstrap 5  
 - JavaScript  
+- Bootstrap 5  
 
-### **Backend**
+### ⚙️ Backend
 - Django  
 - Django REST Framework  
 
-### **Database**
+### 🗄️ Database
 - PostgreSQL  
 
 ---
 
 ## 🚀 Getting Started
 
-Follow these instructions to get a local copy of the project running on your machine for development and testing purposes.
+Follow these instructions to run the project locally for development and testing purposes.
 
-### Prerequisites
+### ✅ Prerequisites
 
-Make sure you have the following installed:
+Make sure the following are installed on your system:
 
-- **Python 3.10+**
-- **PostgreSQL**
-- **pip** for Python package management
-- **Virtual Environment**: Use `pipenv` or `virtualenv` to isolate dependencies.
+- [Python 3.10+](https://www.python.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- `pip` – Python package manager
+- Virtual environment tool (`pipenv` or `virtualenv`)
 
-### Installation Steps
+---
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Mario8802/cycling_connect.git
-   cd cycling_connect
+### 🧰 Installation Guide
+
+```bash
+# Clone the repository
+git clone https://github.com/Mario8802/cyclingnets.git
+cd cyclingnets
+
+# Create a virtual environment
+python -m venv venv
+source venv/bin/activate    # On Windows use: venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Setup the database (adjust credentials as needed)
+psql -U postgres
+CREATE DATABASE cyclingnets;
+
+# Run migrations
+python manage.py migrate
+
+# Start development server
+python manage.py runserver
