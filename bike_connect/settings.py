@@ -388,3 +388,5 @@ LOGGING = {
 # # print(os.getenv('AWS_SECRET_ACCESS_KEY'))
 # # print(os.getenv('AWS_STORAGE_BUCKET_NAME'))
 # # print(os.getenv('DEFAULT_FILE_STORAGE'))
+if not DEBUG:
+    STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
