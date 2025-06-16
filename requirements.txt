@@ -16,8 +16,8 @@ idna==3.10
 jmespath==1.0.1
 packaging==24.2
 pillow==11.0.0
-psycopg==3.1.18
-psycopg[binary]==3.1.18
+psycopg[binary]
+
 python-dateutil==2.9.0.post0
 python-decouple==3.8
 pytz==2024.2
