@@ -53,7 +53,7 @@ def register_view(request):
     # Render registration page
     return render(request, 'users/register.html', {
         'form': form,
-        'background_image': 'static/images/register/hero1.jpg'
+        'background_image': 'static/images/register/benefit2.jpg'
     })
 
 

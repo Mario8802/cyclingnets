@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # === Secret Key / Debug / Hosts ===
 SECRET_KEY = config('DJANGO_SECRET_KEY', default='fallback-secret-key')
 DEBUG = config('DEBUG', default=False, cast=bool)
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(',')
 
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8000',
@@ -86,7 +86,7 @@ TEMPLATES = [
 
 # === Database (via DATABASE_URL) ===
 DATABASES = {
-    'default': dj_database_url.config(conn_max_age=600)
+    'default': dj_database_url.config(default='sqlite:///db.sqlite3')
 }
 
 # === Auth ===
