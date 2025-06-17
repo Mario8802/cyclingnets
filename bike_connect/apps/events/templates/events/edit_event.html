@@ -60,15 +60,28 @@
         const preview = document.getElementById('edit-event-image-preview');
         const file = event.target.files[0];
 
+        while (preview.firstChild) {
+            preview.removeChild(preview.firstChild);
+        }
+
         if (file) {
             const reader = new FileReader();
             reader.onload = function (e) {
-                preview.innerHTML = `<img src="${e.target.result}" alt="New Event Image Preview" class="img-fluid rounded shadow-sm" style="max-width: 300px;">`;
+                const img = document.createElement('img');
+                img.src = e.target.result;
+                img.alt = 'New Event Image Preview';
+                img.className = 'img-fluid rounded shadow-sm';
+                img.style.maxWidth = '300px';
+                preview.appendChild(img);
             };
             reader.readAsDataURL(file);
         } else {
-            preview.innerHTML = '<p class="text-muted small">No image uploaded.</p>';
+            const p = document.createElement('p');
+            p.className = 'text-muted small';
+            p.textContent = 'No image uploaded.';
+            preview.appendChild(p);
         }
     });
 </script>
+
 {% endblock %}

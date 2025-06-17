@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.utils.timezone import now
-from bike_connect.apps.core.models import News, Page
-from bike_connect.apps.events.models import Event
+from cyclingnets.bike_connect.apps.core.models import News, Page
+from cyclingnets.bike_connect.apps.events.models import Event
 from django.contrib.auth.models import User
 
 

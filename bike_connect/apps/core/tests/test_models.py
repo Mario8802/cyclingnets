@@ -1,5 +1,5 @@
 from django.test import TestCase
-from bike_connect.apps.core.models import News, Page
+from cyclingnets.bike_connect.apps.core.models import News, Page
 from django.urls import reverse
 
 

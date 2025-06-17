@@ -1,5 +1,5 @@
 from django.test import TestCase
-from bike_connect.apps.core.forms import NewsForm
+from cyclingnets.bike_connect.apps.core.forms import NewsForm
 
 
 class NewsFormTest(TestCase):

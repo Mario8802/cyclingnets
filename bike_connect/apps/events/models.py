@@ -1,7 +1,7 @@
-from django.core.files.storage import default_storage
 from django.db import models
 from django.contrib.auth import get_user_model
-from bike_connect.storages import MediaStorage
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
 
 # Get the custom User model for use in ForeignKey relationships
 User = get_user_model()
@@ -31,7 +31,7 @@ class Event(models.Model):
     )
     image = models.ImageField(
         upload_to='events/',
-        storage=MediaStorage(),
+        storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
         max_length=255,
@@ -39,15 +39,15 @@ class Event(models.Model):
         help_text="Optional image for the event."
     )
 
-    def save_image_to_s3(self, uploaded_file):
-        """
-        Uploading in S3 and return public URL.
-        """
-        try:
-            file_path = default_storage.save(f'events/{uploaded_file.name}', uploaded_file)
-            return default_storage.url(file_path)
-        except Exception as e:
-            raise ValueError(f"Failed to upload file: {e}")
+    # def save_image_to_s3(self, uploaded_file):
+    #     """
+    #     Uploading in S3 and return public URL.
+    #     """
+    #     try:
+    #         file_path = default_storage.save(f'events/{uploaded_file.name}', uploaded_file)
+    #         return default_storage.url(file_path)
+    #     except Exception as e:
+    #         raise ValueError(f"Failed to upload file: {e}")
 
 
     organizer = models.ForeignKey(

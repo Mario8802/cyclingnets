@@ -1,9 +1,0 @@
-[33md5dc79f[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m Performed general cleanup and prepared the project for next development steps.
-[33maabac07[m Integrated Bootstrap and custom CSS for improved styling.
-[33m2c23870[m Removed BikePost listing functionality for future reimplementation.
-[33m3f430d0[m Fixed URL patterns for posts and removed unused links.
-[33mac31360[m Removed unused and problematic links from landing page.
-[33md0c59fb[m Updated navbar to dynamically show login/register for guests and logout for logged-in users.
-[33m410359a[m[33m ([m[1;31morigin/main[m[33m)[m Merge branch 'main' of https://github.com/Mario8802/bike_connect
-[33m92628c6[m Initial commit for bike_connect project
-[33m2162e46[m Initial commit

@@ -53,7 +53,9 @@
                 </div>
             </div>
         {% empty %}
-            <p class="text-center">No news found.</p>
+            <div class="alert alert-info text-center mt-5">
+                No news articles match your filters.
+            </div>
         {% endfor %}
     </div>
 
@@ -63,17 +65,26 @@
             <ul class="pagination">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                        <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}
+                                                    {% if request.GET.year %}year={{ request.GET.year }}&{% endif %}
+                                                    {% if request.GET.month %}month={{ request.GET.month }}&{% endif %}
+                                                    page={{ page_obj.previous_page_number }}">Previous</a>
                     </li>
                 {% endif %}
                 {% for num in page_obj.paginator.page_range %}
                     <li class="page-item {% if num == page_obj.number %}active{% endif %}">
-                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                        <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}
+                                                    {% if request.GET.year %}year={{ request.GET.year }}&{% endif %}
+                                                    {% if request.GET.month %}month={{ request.GET.month }}&{% endif %}
+                                                    page={{ num }}">{{ num }}</a>
                     </li>
                 {% endfor %}
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                        <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}
+                                                    {% if request.GET.year %}year={{ request.GET.year }}&{% endif %}
+                                                    {% if request.GET.month %}month={{ request.GET.month }}&{% endif %}
+                                                    page={{ page_obj.next_page_number }}">Next</a>
                     </li>
                 {% endif %}
             </ul>

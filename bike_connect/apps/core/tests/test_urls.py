@@ -1,9 +1,9 @@
 from django.test import SimpleTestCase
 from django.urls import reverse, resolve
-from bike_connect.apps.core.views import landing_page
-from bike_connect.apps.users.views import logout_view
+from cyclingnets.bike_connect.apps.core.views import landing_page
+from cyclingnets.bike_connect.apps.users.views import logout_view
 from rest_framework.routers import DefaultRouter
-from bike_connect.apps.events.views import EventViewSet
+from cyclingnets.bike_connect.apps.events.views import EventViewSet
 
 
 class TestUrls(SimpleTestCase):

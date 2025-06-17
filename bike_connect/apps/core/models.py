@@ -1,6 +1,7 @@
+from cloudinary_storage.storage import MediaCloudinaryStorage
 from django.db import models
 from django.urls import reverse
-from bike_connect.storages import MediaStorage
+from cloudinary.models import CloudinaryField
 
 
 # -------------------------------
@@ -24,12 +25,12 @@ class News(models.Model):
 
     # Optional image for the news article, stored using a custom storage backend
     image = models.ImageField(
-        upload_to='news_images/',  # Directory where images will be uploaded
-        storage=MediaStorage(),  # Custom storage class for handling media files
-        blank=True,  # Allows this field to be optional
-        null=True,  # Allows null values in the database
+        upload_to='news_images/',
+        storage=MediaCloudinaryStorage(),
+        blank=True,
+        null=True,
         max_length=255,
-        verbose_name="Image"  # User-friendly label for the field
+        verbose_name="Image"
     )
 
     # Boolean flag indicating whether the news article is published

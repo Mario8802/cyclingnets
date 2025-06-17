@@ -3,7 +3,8 @@ from django.core.exceptions import ValidationError
 from django.db import models
 from django.contrib.auth import get_user_model
 
-from bike_connect.storages import MediaStorage
+from cloudinary.models import CloudinaryField
+
 
 # Fetch the custom user model (if defined) or the default User model
 User = get_user_model()
