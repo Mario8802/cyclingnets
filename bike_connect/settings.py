@@ -97,7 +97,10 @@ MIDDLEWARE: list[str] = [
 # ──────────────────────────────
 CORS_ALLOW_ALL_ORIGINS: bool = config("CORS_ALLOW_ALL_ORIGINS", default=False, cast=bool)
 if not CORS_ALLOW_ALL_ORIGINS:
-    CORS_ALLOWED_ORIGINS: list[str] = config("CORS_ALLOWED_ORIGINS", default="").split(",")
+    CORS_ALLOWED_ORIGINS: list[str] = [
+        origin.strip() for origin in config("CORS_ALLOWED_ORIGINS", default="").split(",")
+        if origin.strip().startswith("http")
+    ]
 
 CORS_ALLOW_CREDENTIALS: bool = True
 
