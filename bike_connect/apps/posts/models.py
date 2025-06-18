@@ -1,3 +1,4 @@
+from cloudinary_storage.storage import MediaCloudinaryStorage
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -81,7 +82,7 @@ class BikePost(models.Model):
 
     image = models.ImageField(
         upload_to='bike_posts/',
-        storage=MediaStorage(),
+        storage=MediaCloudinaryStorage(),
         blank=True,
         null=True,
         max_length=255,

@@ -1,3 +1,4 @@
+from cloudinary_storage.storage import MediaCloudinaryStorage
 from django.contrib.auth.models import AbstractUser, BaseUserManager  # Import base classes for custom user models
 from django.db import models  # Import Django's models module
 
@@ -39,31 +40,27 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractUser):
-    """
-    Custom user model extending the built-in AbstractUser model.
-    Adds a role field and profile picture for additional functionality.
-    """
-
     ROLE_CHOICES = (
-        ('registered', 'Registered'),  # Default role for regular users
-        ('staff', 'Staff'),            # Staff members with additional privileges
-        ('superuser', 'Superuser'),    # Administrators with full permissions
+        ('registered', 'Registered'),
+        ('staff', 'Staff'),
+        ('superuser', 'Superuser'),
     )
 
     role = models.CharField(
         max_length=50,
         choices=ROLE_CHOICES,
         default='registered',
-        help_text="The role determines the user's permissions."
+        help_text="The role determines the user's permissions.",
     )
 
     profile_picture = models.ImageField(
-        upload_to='profile_pictures/',  # Directory for profile pictures
+        upload_to='profile_pictures/',               # Cloudinary folder
+        storage=MediaCloudinaryStorage(),            # ➜ ключовото
         null=True,
         blank=True,
         max_length=255,
         default='profile_pictures/default.jpg',
-        help_text="Upload a profile picture (optional)."
+        help_text="Upload a profile picture (optional).",
     )
 
     objects = CustomUserManager()
