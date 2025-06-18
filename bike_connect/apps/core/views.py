@@ -9,7 +9,7 @@ from django.core.paginator import Paginator
 from itertools import zip_longest
 from .models import News, Page
 from .forms import NewsForm
-from cyclingnets.bike_connect.apps.events.models import Event, Participation
+from bike_connect.apps.events.models import Event, Participation
 
 # -------------------------------
 # Admin Mixin

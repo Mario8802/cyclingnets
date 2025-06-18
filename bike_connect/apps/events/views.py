@@ -9,7 +9,7 @@ from django.views.generic import ListView, CreateView, UpdateView, DeleteView, D
 from rest_framework import viewsets
 
 from .forms import EventForm
-from cyclingnets.bike_connect.apps.events.models import Event, Participation
+from bike_connect.apps.events.models import Event, Participation
 from .serializers import EventSerializer
 
 
