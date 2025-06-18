@@ -30,6 +30,7 @@ CSRF_TRUSTED_ORIGINS: list[str] = [
 # Installed apps
 # ──────────────────────────────
 DJANGO_APPS: list[str] = [
+    "jazzmin",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -39,7 +40,6 @@ DJANGO_APPS: list[str] = [
 ]
 
 THIRD_PARTY_APPS: list[str] = [
-    "jazzmin",
     "rest_framework",
     "django_filters",
     "corsheaders",

@@ -9,31 +9,36 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-      DATABASE_URL:      ${{ secrets.DATABASE_URL }}
-      ALLOWED_HOSTS:     ${{ secrets.ALLOWED_HOSTS }}
-      CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
-      CLOUDINARY_API_KEY:    ${{ secrets.CLOUDINARY_API_KEY }}
-      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
+      DJANGO_SECRET_KEY:       ${{ secrets.DJANGO_SECRET_KEY }}
+      DATABASE_URL:            ${{ secrets.DATABASE_URL }}
+      ALLOWED_HOSTS:           ${{ secrets.ALLOWED_HOSTS }}
+      CLOUDINARY_CLOUD_NAME:   ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+      CLOUDINARY_API_KEY:      ${{ secrets.CLOUDINARY_API_KEY }}
+      CLOUDINARY_API_SECRET:   ${{ secrets.CLOUDINARY_API_SECRET }}
 
     steps:
-      - name: Checkout code
+      - name: ✅ Checkout code
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: 🐍 Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: "3.12"
 
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: |
+          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run collectstatic & migrate
+      - name: 🧪 Run Django tests
+        run: |
+          python manage.py test
+
+      - name: ⚙️ Collect static files & run migrations
         run: |
           python manage.py collectstatic --noinput
           python manage.py migrate
 
-      - name: Deploy to Render
+      - name: 🚀 Trigger Render Deploy
         run: |
           curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
