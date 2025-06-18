@@ -24,3 +24,4 @@ typing_extensions==4.12.2
 tzdata==2024.2
 urllib3==2.2.3
 whitenoise==6.9.0
+django-widget-tweaks==1.4.12
