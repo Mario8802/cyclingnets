@@ -5,10 +5,10 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
 # Import views and routers
-from cyclingnets.bike_connect.apps.events.views import EventViewSet  # Event API viewset
-from cyclingnets.bike_connect.apps.users.views import logout_view   # Custom logout view
-from cyclingnets.bike_connect.apps.core.views import landing_page, custom_404_view  # Landing page and custom 404 view
-from cyclingnets.bike_connect.apps.posts import views               # Placeholder import for clarity
+from bike_connect.apps.events.views import EventViewSet  # Event API viewset
+from bike_connect.apps.users.views import logout_view   # Custom logout view
+from bike_connect.apps.core.views import landing_page, custom_404_view  # Landing page and custom 404 view
+from bike_connect.apps.posts import views               # Placeholder import for clarity
 
 # -------------------------------
 # REST Framework Router
