@@ -1,6 +1,6 @@
 # 🚴‍♂️ CyclingNets
 
-> [www.cyclingnets.com](https://www.cyclingnets.onrender.com) 
+> [www.cyclingnets.onrender.com](https://www.cyclingnets.onrender.com) 
 
 ---
 
