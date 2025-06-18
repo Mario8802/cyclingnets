@@ -45,6 +45,7 @@ THIRD_PARTY_APPS: list[str] = [
     "corsheaders",
     "cloudinary",
     "cloudinary_storage",
+    'widget_tweaks'
 ]
 
 LOCAL_APPS: list[str] = [
