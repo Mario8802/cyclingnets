@@ -1,4 +1,4 @@
-name: Deploy Django App to Render
+name: Deploy Django to Render
 
 on:
   push:
@@ -10,8 +10,11 @@ jobs:
 
     env:
       DJANGO_SECRET_KEY: ${{ secrets.DJANGO_SECRET_KEY }}
-      ALLOWED_HOSTS: ${{ secrets.ALLOWED_HOSTS }}
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      DATABASE_URL:      ${{ secrets.DATABASE_URL }}
+      ALLOWED_HOSTS:     ${{ secrets.ALLOWED_HOSTS }}
+      CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+      CLOUDINARY_API_KEY:    ${{ secrets.CLOUDINARY_API_KEY }}
+      CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
 
     steps:
       - name: Checkout code
@@ -22,23 +25,15 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: 📦 Install dependencies
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
+      - name: Run collectstatic & migrate
         run: |
-          python cyclingnets/manage.py test
+          python manage.py collectstatic --noinput
+          python manage.py migrate
 
-      - name: 🔧 Run migrations & collectstatic
-        run: |
-          python cyclingnets/manage.py migrate --noinput
-          python cyclingnets/manage.py collectstatic --noinput
-        env:
-          DJANGO_SETTINGS_MODULE: cyclingnets.settings
-
-      - name: Trigger Render Deploy Hook (optional)
-        if: ${{ secrets.RENDER_DEPLOY_HOOK != '' }}
+      - name: Deploy to Render
         run: |
           curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
