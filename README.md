@@ -1,6 +1,6 @@
 # 🚴‍♂️ CyclingNets
 
-> [www.cyclingnets.com](https://www.cyclingnets.com) – *Note: as of April 1st, 2025, this project is no longer hosted on AWS due to cost optimization. The code remains available for local development and portfolio presentation.*
+> [www.cyclingnets.com](https://www.cyclingnets.onrender.com) 
 
 ---
 
